@@ -1,7 +1,7 @@
 <template>
     <div class="form-group row justify-content-center">
         <div class="col-sm-12 col-md-8">
-            <h3>{{ __('I am a') }}</h3>kjj
+            <h3>{{ __('I am a') }}</h3>
         </div>
 
         <div class="col-sm-12 col-md-8 d-flex justify-content-center">
