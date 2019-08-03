@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
-use Transporte\User;
-use Transporte\Role;
+use App\User;
+use App\Role;
 
 class UserTableSeeder extends Seeder
 {
