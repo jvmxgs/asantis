@@ -64,30 +64,13 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">{{ __('Home') }}</a>
-                    @else
-                        <a href="{{ route('login') }}">{{ __('Login') }}</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">{{ __('Register') }}</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    Asantis
+                    Samai eres un puton
                 </div>
 
-                <div class="links">
-                    <a href="#"><i class="fa fa-user"></i>Compañias</a>
-                    <a href="#">Transportistas</a>
-                </div>
             </div>
         </div>
     </body>
