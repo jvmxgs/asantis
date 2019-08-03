@@ -1,0 +1,38 @@
+$enable-responsive-font-sizes: true;
+$softgray: #d8d8d8;
+
+
+@mixin buttonIam ($padding, $fontzise) {
+    .btn-gray {
+        padding: $padding;
+        font-size: $fontzise;
+
+        span {
+            font-size: $fontzise;
+        }
+    }
+};
+
+.btn-gray {
+    border-color: $softgray;
+    padding: 1.2em;
+    span {
+        display: block;
+    }
+}
+
+.btn-gray .active{
+    background-color: #d8d8d8;
+    color:#00ff00;
+}
+
+
+
+@media (min-width: 1200px) {
+    @include buttonIam(1.5em, 0.9rem);
+}
+
+
+@media (max-width: 320px) {
+    @include buttonIam(.8em, 0.7rem);
+}
