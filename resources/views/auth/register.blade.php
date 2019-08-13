@@ -12,8 +12,29 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
-                        <register-component></register-component>
+                        <div class="form-group row justify-content-center">
+                            <div class="col-sm-12 col-md-8">
+                                <h3>{{ __('I am a') }}</h3>
+                                <input type="hidden" value="{{ old('role') }}" name="role" id="role" />
+                            </div>
 
+                            <div class="col-sm-12 col-md-8 d-flex justify-content-center">
+
+                                <div class="btn-group" role="group" data-toggle="button">
+                                    <button type="button" class="btn btn-gray btn-gray-company">
+                                        <i class="fas fa-user fa-7x"></i>
+                                        <span class="">{{ trans('asantis.Company') }}</span>
+                                    </button>
+                                    <button type="button" class="btn btn-gray btn-gray-carrier">
+                                      <i class="fas fa-truck fa-7x"></i>
+                                      <span>{{ trans('asantis.Carrier') }}</span>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="hiddenForm" class="hide">
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
@@ -81,15 +102,42 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Register') }}
+                                        {{ __('Register me') }}
                                     </button>
                                 </div>
                             </div>
-
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script type="application/javascript">
+$(document).ready(function() {
+    @if(!$errors->any())
+        $("#hiddenForm").hide();
+    @endif
+    });
+
+    $(".btn-gray").click(function() {
+        $("#hiddenForm").slideDown();
+    });
+
+    $(".btn-gray-company").click(function() {
+        $("#role").val("company");
+        $(".btn-gray-company").fadeTo( "slow", 1 );
+        $(".btn-gray-carrier").fadeTo( "slow", 0.33 );
+        console.log($("#role").val());
+    });
+
+    $(".btn-gray-carrier").click(function() {
+        $("#role").val("carrier");
+        $(".btn-gray-carrier").fadeTo( "slow", 1 );
+        $(".btn-gray-company").fadeTo( "slow", 0.33 );
+        console.log($("#role").val());
+    });
+
+</script>
+
 @endsection

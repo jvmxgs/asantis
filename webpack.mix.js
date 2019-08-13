@@ -12,4 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .copy('node_modules/leaflet/dist', 'public/js/vendor/leaftlet')
+    .copy('node_modules/leaflet-routing-machine/dist', 'public/js/vendor/leaflet-routing-machine')
     .sass('resources/sass/app.scss', 'public/css');

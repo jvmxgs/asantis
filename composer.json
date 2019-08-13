@@ -13,7 +13,8 @@
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.8",
-        "laraveles/spanish": "^1.2"
+        "laraveles/spanish": "^1.2",
+        "martinlindhe/laravel-vue-i18n-generator": "^0.1.39"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

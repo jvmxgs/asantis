@@ -1,3 +1,4 @@
+
 $enable-responsive-font-sizes: true;
 $softgray: #d8d8d8;
 
@@ -25,8 +26,6 @@ $softgray: #d8d8d8;
     background-color: #d8d8d8;
     color:#00ff00;
 }
-
-
 
 @media (min-width: 1200px) {
     @include buttonIam(1.5em, 0.9rem);
