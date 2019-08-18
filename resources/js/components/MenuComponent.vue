@@ -8,7 +8,7 @@
                 <router-link class="nav-link" to="/home">Inicio</router-link>
             </li>
             <li class="nav-item">
-                <router-link class="nav-link" to="/myloads">Mis cargas</router-link>
+                <router-link class="nav-link" to="/company/myloads">Mis cargas</router-link>
             </li>
         </ul>
     </nav>

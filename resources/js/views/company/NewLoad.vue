@@ -27,37 +27,40 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <label>Ubica en el mapa el origen y destino de la carga</label>
-            </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
+                <h5>Datos de origen</h5>
                 <div class="form-group">
-                    <div id="map" style="width:100%; height:50vh;">
-                    </div>
+                    <label for="pickupfrom">Estado:</label>
+                    <input type="text" class="form-control" id="pickupfrom" v-model="pickupfrom" />
+                </div>
+                <div class="form-group">
+                    <label for="pickupfrom">Municipio:</label>
+                    <input type="text" class="form-control" id="pickupfrom" v-model="pickupfrom" />
+                </div>
+                <div class="form-group">
+                    <label for="pickupfrom">Dirección:</label>
+                    <input type="text" class="form-control" id="pickupfrom" v-model="pickupfrom" />
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="pickupfrom">Origen:</label>
-                        <input type="text" class="form-control" id="pickupfrom" v-model="pickupfrom" />
-                    </div>
+            <div class="col-md-6">
+                <h5>Datos de destino</h5>
+                <div class="form-group">
+                    <label for="pickupfrom">Estado:</label>
+                    <input type="text" class="form-control" id="deliverto" v-model="deliverto" />
                 </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="pickupfrom">Destino:</label>
-                        <input type="text" class="form-control" id="deliverto" v-model="deliverto" />
-                    </div>
+                <div class="form-group">
+                    <label for="pickupfrom">Municipio:</label>
+                    <input type="text" class="form-control" id="deliverto" v-model="deliverto" />
                 </div>
-                <div class="col-md-12">
-                    <div class="card p-3 mt-5">
-                        <div class="card shadow text-info p-3 my-card" style="position:absolute;left:40%;top:-20px;border-radius:50%;"><span class="fa fa-route" aria-hidden="true"></span></div>
-                        <div class="text-info text-center mt-3"><h5>Distancia</h5></div>
-                        <div class="text-info text-center mt-2"><h3>{{ distance }}</h3></div>
-                    </div>
+                <div class="form-group">
+                    <label for="pickupfrom">Dirección:</label>
+                    <input type="text" class="form-control" id="deliverto" v-model="deliverto" />
                 </div>
             </div>
-            <div class="col-md-8">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr/>
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
         </div>
@@ -72,12 +75,7 @@
                 weight: '',
                 description: '',
                 pickupfrom: '',
-                pickupfrom_latitude: '',
-                pickupfrom_longitude: '',
-                deliverto: '',
-                deliverto_latitude: '',
-                deliverto_longitude: '',
-                distance: '0'
+                deliverto: ''
             }
         },
         methods: {
@@ -86,11 +84,7 @@
                     loadnumber: this.loadnumber,
                     description: this.description,
                     pickupfrom: this.pickupfrom,
-                    pickupfrom_latitude: this.pickupfrom_latitude,
-                    pickupfrom_longitude: this.pickupfrom_longitude,
                     deliverto: this.deliverto,
-                    deliverto_latitude: this.deliverto_latitude,
-                    deliverto_longitude: this.deliverto_longitude,
                     weight: this.weight,
                 };
 
@@ -124,65 +118,7 @@
             }
         },
         mounted() {
-            var geocodeService = L.esri.Geocoding.geocodeService();
-            var map = L.map('map').setView([32.505, -116.09], 13);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            var control = L.Routing.control({
-                waypoints: [
-                ],
-                routeWhileDragging: true
-            }).addTo(map);
-
-            map.on('click', (e) => {
-                var container = L.DomUtil.create('div'),
-                    startBtn = createButton('Establecer origen', container),
-                    destBtn = createButton('Establecer destino', container);
-
-                    L.DomEvent.on(startBtn, 'click', () => {
-                        control.spliceWaypoints(0, 1, e.latlng);
-                        map.closePopup();
-                        geocodeService.reverse().latlng(e.latlng).run((error, result) => {
-                            this.pickupfrom = result.address.Match_addr;
-                        });
-                        this.pickupfrom_latitude = e.latlng.lat;
-                        this.pickupfrom_longitude = e.latlng.lng;
-                    });
-                    L.DomEvent.on(destBtn, 'click', () => {
-                        control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
-                        map.closePopup();
-                        geocodeService.reverse().latlng(e.latlng).run((error, result) => {
-                            this.deliverto = result.address.Match_addr;
-                            console.log(this.deliverto);
-                        });
-                        this.deliverto_latitude = e.latlng.lat;
-                        this.deliverto_longitude = e.latlng.lng;
-                    });
-
-                L.popup()
-                    .setContent(container)
-                    .setLatLng(e.latlng)
-                    .openOn(map);
-            });
-
-            control.hide();
-            control.on('routesfound', (e) => {
-               var routes = e.routes;
-               var summary = routes[0].summary;
-               console.log('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
-               this.distance = (Math.round(summary.totalDistance / 10, 2) / 100) + " km";
-            });
-
-            function createButton(label, container) {
-                var btn = L.DomUtil.create('button', '', container);
-                btn.setAttribute('type', 'button');
-                btn.setAttribute('class', 'btn btn-primary');
-                btn.innerHTML = label;
-                return btn;
-            }
         }
     }
 </script>

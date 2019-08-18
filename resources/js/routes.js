@@ -18,16 +18,17 @@ const Router = new VueRouter({
             component: Home
         },
         {
-            path: '/myloads',
+            path: '/company/myloads',
             name: 'myloads',
-            component: MyLoads,
+            component: MyLoads
         },
         {
-            path: '/newload',
+            path: '/company/newload',
             name: 'newload',
-            component: NewLoad,
+            component: NewLoad
         },
     ],
 })
+
 
 export default Router

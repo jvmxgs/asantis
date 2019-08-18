@@ -2074,6 +2074,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2082,12 +2085,7 @@ __webpack_require__.r(__webpack_exports__);
       weight: '',
       description: '',
       pickupfrom: '',
-      pickupfrom_latitude: '',
-      pickupfrom_longitude: '',
-      deliverto: '',
-      deliverto_latitude: '',
-      deliverto_longitude: '',
-      distance: '0'
+      deliverto: ''
     };
   },
   methods: {
@@ -2098,11 +2096,7 @@ __webpack_require__.r(__webpack_exports__);
         loadnumber: this.loadnumber,
         description: this.description,
         pickupfrom: this.pickupfrom,
-        pickupfrom_latitude: this.pickupfrom_latitude,
-        pickupfrom_longitude: this.pickupfrom_longitude,
         deliverto: this.deliverto,
-        deliverto_latitude: this.deliverto_latitude,
-        deliverto_longitude: this.deliverto_longitude,
         weight: this.weight
       };
       axios.post('/loads', params).then(function (response) {
@@ -2136,59 +2130,7 @@ __webpack_require__.r(__webpack_exports__);
       e.preventDefault();
     }
   },
-  mounted: function mounted() {
-    var _this2 = this;
-
-    var geocodeService = L.esri.Geocoding.geocodeService();
-    var map = L.map('map').setView([32.505, -116.09], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    var control = L.Routing.control({
-      waypoints: [],
-      routeWhileDragging: true
-    }).addTo(map);
-    map.on('click', function (e) {
-      var container = L.DomUtil.create('div'),
-          startBtn = createButton('Establecer origen', container),
-          destBtn = createButton('Establecer destino', container);
-      L.DomEvent.on(startBtn, 'click', function () {
-        control.spliceWaypoints(0, 1, e.latlng);
-        map.closePopup();
-        geocodeService.reverse().latlng(e.latlng).run(function (error, result) {
-          _this2.pickupfrom = result.address.Match_addr;
-        });
-        _this2.pickupfrom_latitude = e.latlng.lat;
-        _this2.pickupfrom_longitude = e.latlng.lng;
-      });
-      L.DomEvent.on(destBtn, 'click', function () {
-        control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
-        map.closePopup();
-        geocodeService.reverse().latlng(e.latlng).run(function (error, result) {
-          _this2.deliverto = result.address.Match_addr;
-          console.log(_this2.deliverto);
-        });
-        _this2.deliverto_latitude = e.latlng.lat;
-        _this2.deliverto_longitude = e.latlng.lng;
-      });
-      L.popup().setContent(container).setLatLng(e.latlng).openOn(map);
-    });
-    control.hide();
-    control.on('routesfound', function (e) {
-      var routes = e.routes;
-      var summary = routes[0].summary;
-      console.log('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
-      _this2.distance = Math.round(summary.totalDistance / 10, 2) / 100 + " km";
-    });
-
-    function createButton(label, container) {
-      var btn = L.DomUtil.create('button', '', container);
-      btn.setAttribute('type', 'button');
-      btn.setAttribute('class', 'btn btn-primary');
-      btn.innerHTML = label;
-      return btn;
-    }
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -39460,7 +39402,7 @@ var render = function() {
           [
             _c(
               "router-link",
-              { staticClass: "nav-link", attrs: { to: "/myloads" } },
+              { staticClass: "nav-link", attrs: { to: "/company/myloads" } },
               [_vm._v("Mis cargas")]
             )
           ],
@@ -39531,7 +39473,7 @@ var render = function() {
                 staticClass: "btn btn-sm btn-primary btn-create",
                 attrs: { to: "/newload" }
               },
-              [_vm._v("Nueva carga")]
+              [_c("i", { staticClass: "fas fa-plus" }), _vm._v(" Nueva carga")]
             )
           ],
           1
@@ -39804,86 +39746,180 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-4" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "pickupfrom" } }, [
-                _vm._v("Origen:")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.pickupfrom,
-                    expression: "pickupfrom"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "pickupfrom" },
-                domProps: { value: _vm.pickupfrom },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.pickupfrom = $event.target.value
-                  }
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("h5", [_vm._v("Datos de origen")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "pickupfrom" } }, [_vm._v("Estado:")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.pickupfrom,
+                  expression: "pickupfrom"
                 }
-              })
-            ])
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "pickupfrom" },
+              domProps: { value: _vm.pickupfrom },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.pickupfrom = $event.target.value
+                }
+              }
+            })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "pickupfrom" } }, [
-                _vm._v("Destino:")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.deliverto,
-                    expression: "deliverto"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "deliverto" },
-                domProps: { value: _vm.deliverto },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.deliverto = $event.target.value
-                  }
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "pickupfrom" } }, [
+              _vm._v("Municipio:")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.pickupfrom,
+                  expression: "pickupfrom"
                 }
-              })
-            ])
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "pickupfrom" },
+              domProps: { value: _vm.pickupfrom },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.pickupfrom = $event.target.value
+                }
+              }
+            })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "card p-3 mt-5" }, [
-              _vm._m(2),
-              _vm._v(" "),
-              _vm._m(3),
-              _vm._v(" "),
-              _c("div", { staticClass: "text-info text-center mt-2" }, [
-                _c("h3", [_vm._v(_vm._s(_vm.distance))])
-              ])
-            ])
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "pickupfrom" } }, [
+              _vm._v("Dirección:")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.pickupfrom,
+                  expression: "pickupfrom"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "pickupfrom" },
+              domProps: { value: _vm.pickupfrom },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.pickupfrom = $event.target.value
+                }
+              }
+            })
           ])
         ]),
         _vm._v(" "),
-        _vm._m(4)
-      ])
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("h5", [_vm._v("Datos de destino")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "pickupfrom" } }, [_vm._v("Estado:")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.deliverto,
+                  expression: "deliverto"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "deliverto" },
+              domProps: { value: _vm.deliverto },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.deliverto = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "pickupfrom" } }, [
+              _vm._v("Municipio:")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.deliverto,
+                  expression: "deliverto"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "deliverto" },
+              domProps: { value: _vm.deliverto },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.deliverto = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "pickupfrom" } }, [
+              _vm._v("Dirección:")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.deliverto,
+                  expression: "deliverto"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", id: "deliverto" },
+              domProps: { value: _vm.deliverto },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.deliverto = $event.target.value
+                }
+              }
+            })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(0)
     ]
   )
 }
@@ -39892,64 +39928,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("label", [_vm._v("Ubica en el mapa el origen y destino de la carga")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-8" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("div", {
-          staticStyle: { width: "100%", height: "50vh" },
-          attrs: { id: "map" }
-        })
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("hr"),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+          [_vm._v("Guardar")]
+        )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "card shadow text-info p-3 my-card",
-        staticStyle: {
-          position: "absolute",
-          left: "40%",
-          top: "-20px",
-          "border-radius": "50%"
-        }
-      },
-      [
-        _c("span", {
-          staticClass: "fa fa-route",
-          attrs: { "aria-hidden": "true" }
-        })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-info text-center mt-3" }, [
-      _c("h5", [_vm._v("Distancia")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-8" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Guardar")]
-      )
     ])
   }
 ]
@@ -55345,15 +55333,14 @@ if (token) {
 /*!******************************************************!*\
   !*** ./resources/js/components/LoadRowComponent.vue ***!
   \******************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LoadRowComponent_vue_vue_type_template_id_23b1a398___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LoadRowComponent.vue?vue&type=template&id=23b1a398& */ "./resources/js/components/LoadRowComponent.vue?vue&type=template&id=23b1a398&");
 /* harmony import */ var _LoadRowComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LoadRowComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/LoadRowComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _LoadRowComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _LoadRowComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -55383,7 +55370,7 @@ component.options.__file = "resources/js/components/LoadRowComponent.vue"
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/LoadRowComponent.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55509,11 +55496,11 @@ var Router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     name: 'home',
     component: _views_Home__WEBPACK_IMPORTED_MODULE_2__["default"]
   }, {
-    path: '/myloads',
+    path: '/company/myloads',
     name: 'myloads',
     component: _views_company_MyLoads__WEBPACK_IMPORTED_MODULE_4__["default"]
   }, {
-    path: '/newload',
+    path: '/company/newload',
     name: 'newload',
     component: _views_company_NewLoad__WEBPACK_IMPORTED_MODULE_3__["default"]
   }]

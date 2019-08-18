@@ -6,7 +6,7 @@
         <h3 class="panel-title">Panel Heading</h3>
       </div>
       <div class="col col-xs-6 text-right">
-        <router-link class="btn btn-sm btn-primary btn-create" to="/newload">Nueva carga</router-link>
+        <router-link class="btn btn-sm btn-primary btn-create" to="/newload"><i class="fas fa-plus"></i> Nueva carga</router-link>
       </div>
     </div>
     </div>
