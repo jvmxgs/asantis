@@ -31,37 +31,46 @@
                 <h5>Datos de origen</h5>
                 <div class="form-group">
                     <label for="pickupfrom">Estado:</label>
-                    <input type="text" class="form-control" id="pickupfrom" v-model="pickupfrom" />
+                    <select class="form-control" v-model="fromestado_id">
+                        <option v-for="estado in estados" :value="estado.id">{{estado.nombre}}</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="pickupfrom">Municipio:</label>
-                    <input type="text" class="form-control" id="pickupfrom" v-model="pickupfrom" />
+                    <select class="form-control" v-model="frommunicipio_id">
+                        <option v-for="municipio in municipiosFrom" :value="municipio.id">{{municipio.nombre}}</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="pickupfrom">Dirección:</label>
-                    <input type="text" class="form-control" id="pickupfrom" v-model="pickupfrom" />
+                    <input type="text" class="form-control" v-model="fromaddress" />
                 </div>
             </div>
             <div class="col-md-6">
                 <h5>Datos de destino</h5>
                 <div class="form-group">
                     <label for="pickupfrom">Estado:</label>
-                    <input type="text" class="form-control" id="deliverto" v-model="deliverto" />
+                    <select class="form-control" v-model="toestado_id">
+                        <option v-for="estado in estados" :value="estado.id">{{estado.nombre}}</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="pickupfrom">Municipio:</label>
-                    <input type="text" class="form-control" id="deliverto" v-model="deliverto" />
+                    <select class="form-control" v-model="tomunicipio_id">
+                        <option v-for="municipio in municipiosTo" :value="municipio.id">{{municipio.nombre}}</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="pickupfrom">Dirección:</label>
-                    <input type="text" class="form-control" id="deliverto" v-model="deliverto" />
+                    <input type="text" class="form-control" id="deliverto" v-model="toaddress" />
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <hr/>
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                <router-link class="btn btn-secondary btn-create" :to="{name: 'myloads'}"><i class="fas fa-ban"></i> Cancelar</router-link>
             </div>
         </div>
     </form>
@@ -70,12 +79,19 @@
     export default {
         data() {
             return {
+                estados: [],
+                municipiosFrom: [],
+                municipiosTo: [],
                 errors: [],
                 loadnumber: '',
                 weight: '',
                 description: '',
-                pickupfrom: '',
-                deliverto: ''
+                fromestado_id: '',
+                frommunicipio_id: '',
+                fromaddress: '',
+                toestado_id: '',
+                tomunicipio_id: '',
+                toaddress: ''
             }
         },
         methods: {
@@ -83,8 +99,12 @@
                 const params = {
                     loadnumber: this.loadnumber,
                     description: this.description,
-                    pickupfrom: this.pickupfrom,
-                    deliverto: this.deliverto,
+                    fromestado_id: this.fromestado_id,
+                    frommunicipio_id: this.frommunicipio_id,
+                    fromaddress: this.fromaddress,
+                    toestado_id: this.toestado_id,
+                    tomunicipio_id: this.tomunicipio_id,
+                    toaddress: this.toaddress,
                     weight: this.weight,
                 };
 
@@ -92,10 +112,19 @@
                 .then((response) => {
                     //reset all inputs
                     Object.assign(this.$data, this.$options.data.call(this));
+                    this.$router.push({name: 'myloads'})
                 });
             },
             checkForm: function (e) {
-                  if (this.loadnumber && this.weight && this.pickupfrom && this.deliverto) {
+                  if (this.loadnumber &&
+                            this.weight &&
+                            this.toaddress &&
+                            this.tomunicipio_id &&
+                            this.toestado_id &&
+                            this.fromaddress &&
+                            this.frommunicipio_id &&
+                            this.fromestado_id &&
+                             this.deliverto) {
                     return true;
                   }
 
@@ -107,18 +136,45 @@
                   if (!this.weight) {
                     this.errors.push('Peso requerido');
                   }
-                  if (!this.pickupfrom) {
-                    this.errors.push('Origen requerido');
+                  if (!this.toaddress) {
+                    this.errors.push('Direccion de destino requerido');
                   }
-                  if (!this.deliverto) {
-                    this.errors.push('Destino requerido');
+                  if (!this.tomunicipio_id) {
+                    this.errors.push('municipio de destino requerido');
                   }
+                  if (!this.toestado_id) {
+                    this.errors.push('Estado de destino requerido');
+                  }
+                  if (!this.fromaddress) {
+                    this.errors.push('Direccion de origen requerido');
+                  }
+                  if (!this.frommunicipio_id) {
+                    this.errors.push('municipio de origen requerido');
+                  }
+                  if (!this.fromestado_id) {
+                    this.errors.push('Estado de origen requerido');
+                  }
+
 
                   e.preventDefault();
             }
         },
         mounted() {
-
+            axios.get('/localidades').then((response) =>{
+                this.estados = response.data;
+            });
+        },
+        watch: {
+            fromestado_id: function (newVal) {
+                axios.get('/localidades/' + newVal).then((response) =>{
+                    this.municipiosFrom = response.data;
+                });
+            },
+            toestado_id: function (newVal) {
+                axios.get('/localidades/' + newVal).then((response) =>{
+                    this.municipiosTo = response.data;
+                });
+            }
         }
     }
 </script>

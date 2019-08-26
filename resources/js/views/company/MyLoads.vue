@@ -3,10 +3,10 @@
     <div class="panel-heading">
     <div class="row">
       <div class="col col-xs-6">
-        <h3 class="panel-title">Panel Heading</h3>
+        <h3 class="panel-title">Mis cargas</h3>
       </div>
       <div class="col col-xs-6 text-right">
-        <router-link class="btn btn-sm btn-primary btn-create" to="/newload"><i class="fas fa-plus"></i> Nueva carga</router-link>
+        <router-link class="btn btn-sm btn-primary btn-create" :to="{name: 'newload'}"><i class="fas fa-plus"></i> Nueva carga</router-link>
       </div>
     </div>
     </div>
@@ -23,11 +23,11 @@
         </tr>
       </thead>
       <tbody>
-            <loadrow-component
+            <load-row
                 v-for="load in loads"
                 :key="load.id"
                 :load="load">
-            </loadrow-component>
+            </load-row>
         </tbody>
     </table>
 
@@ -54,7 +54,12 @@
     </div>
 </template>
 <script>
+    import LoadRow from './LoadRow';
+
     export default {
+        components: {
+            LoadRow
+        },
         data() {
             return {
                 loads: []

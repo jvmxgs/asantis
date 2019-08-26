@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::resource('loads', 'API\LoadController');
+
+Route::resource('localidades', 'API\LocalidadesController')->only([
+    'index', 'show'
+]);
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
