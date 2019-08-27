@@ -9,6 +9,9 @@
                     </ul>
                 </div>
             </div>
+            <div class="col-md-12">
+                <h4>Datos generales:</h4>
+            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="loadnumber">Numero de carga:</label>
@@ -26,9 +29,10 @@
                 </div>
             </div>
         </div>
+        <hr />
         <div class="row">
             <div class="col-md-6">
-                <h5>Datos de origen</h5>
+                <h4>Sale desde:</h4>
                 <div class="form-group">
                     <label for="pickupfrom">Estado:</label>
                     <select class="form-control" v-model="fromestado_id">
@@ -47,7 +51,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <h5>Datos de destino</h5>
+                <h4>Se dirige hacia:</h4>
                 <div class="form-group">
                     <label for="pickupfrom">Estado:</label>
                     <select class="form-control" v-model="toestado_id">
@@ -112,6 +116,12 @@
                 .then((response) => {
                     //reset all inputs
                     Object.assign(this.$data, this.$options.data.call(this));
+                    this.$swal.fire({
+                      title: 'Grandioso',
+                      text: 'Se ha guardado correctamente la carga',
+                      type: 'success',
+                      confirmButtonText: 'Genial'
+                    })
                     this.$router.push({name: 'myloads'})
                 });
             },

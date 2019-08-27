@@ -10,7 +10,7 @@ import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
 import Index from './views/Index'
 import auth from './auth'
-
+import VueSweetalert2 from 'vue-sweetalert2';
 
 
 import VueInternationalization from 'vue-i18n';
@@ -24,7 +24,8 @@ const i18n = new VueInternationalization({
     messages: Locales
 });
 
-Vue.use(VueFragment.Plugin);
+Vue.use(VueSweetalert2)
+Vue.use(VueFragment.Plugin)
 Vue.router = Router
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)

@@ -14,7 +14,7 @@
 
         <div class="content">
             <div class="title m-b-md">
-                ASANTIS
+                <img src="/images/logo.png" />
             </div>
 
             <div class="links">
