@@ -19,6 +19,8 @@ Route::resource('localidades', 'API\LocalidadesController')->only([
     'index', 'show'
 ]);
 
+Route::post('search', 'SearchController@search');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

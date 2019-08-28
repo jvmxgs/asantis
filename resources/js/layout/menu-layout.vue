@@ -6,6 +6,9 @@
             </div>
             <div class="card-body">
                 <ul class="nav flex-column nav-pills navbar-light bg-white">
+                    <li class="nav-item active">
+                        <router-link :to="{name: 'search'}" class="nav-link">Buscar</router-link>
+                    </li>
                     <li class="nav-item active" v-for="menuItem in menuItems[menuOwner]">
                         <router-link :to="menuItem.link" class="nav-link">{{menuItem.title}}</router-link>
                     </li>
@@ -33,7 +36,7 @@
             }
         },
         mounted () {
-            console.log(this.menuOwner);
+
         },
         methods: {
             getOwner () {

@@ -19,7 +19,10 @@ class LoadController extends Controller
 
     public function index()
     {
-        $load = Load::with('frommunicipio', 'tomunicipio')->where('user_id', auth()->id())->get();
+        $load = Load::with('frommunicipio', 'tomunicipio')
+                ->where('user_id', auth()->id())
+                ->orderBy('updated_at', 'DESC')
+                ->get();
 
         return $load;
     }
