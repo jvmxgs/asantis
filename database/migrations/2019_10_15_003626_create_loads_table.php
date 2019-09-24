@@ -16,21 +16,21 @@ class CreateLoadsTable extends Migration
         Schema::create('loads', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('loadnumber')->unique();
-            $table->string('description');
+            $table->string('description')->nullable();;
 
             $table->unsignedBigInteger('fromestado_id');
             $table->foreign('fromestado_id')->references('id')->on('estados');
             $table->unsignedBigInteger('frommunicipio_id');
             $table->foreign('frommunicipio_id')->references('id')->on('municipios');
-            $table->string('fromaddress')->nullable();
-            $table->dateTime('departuretime')->nullable();
+            $table->string('fromaddress');
+            $table->dateTime('departuretime');
 
             $table->unsignedBigInteger('toestado_id');
             $table->foreign('toestado_id')->references('id')->on('estados');
             $table->unsignedBigInteger('tomunicipio_id');
             $table->foreign('tomunicipio_id')->references('id')->on('municipios');
             $table->string('toaddress');
-            $table->dateTime('arrivaltime')->nullable();
+            $table->dateTime('arrivaltime');
 
             $table->unsignedInteger('weight');
             $table->enum('weightunit', ['kg', 'lb']);

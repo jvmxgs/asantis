@@ -14,7 +14,7 @@
 
         <div class="content">
             <div class="title m-b-md">
-                <img src="/images/logo.png" />
+                <img src="/images/logo.png" class="img-fluid" />
             </div>
 
             <div class="links">

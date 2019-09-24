@@ -1,5 +1,5 @@
 <template>
-    <form v-on:submit.prevent="newLoad" @submit="checkForm">
+    <form  @submit="checkForm" v-on:submit.prevent="newLoad">
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-danger" role="danger" v-if="errors.length">
@@ -23,8 +23,9 @@
                   <input type="number" placeholder="Peso" v-model="weight" class="form-control" />
                   <div class="input-group-append">
                     <select v-model="weightunit" class="form-control">
-                        <option>Kilos</option>
-                        <option>Libras</option>
+                        <option value=""></option>
+                        <option value="kg">Kilos</option>
+                        <option value="lb">Libras</option>
                     </select>
                   </div>
                 </div>
@@ -138,88 +139,94 @@
         },
         methods: {
             newLoad () {
-                if (this.isSaving) {
-                    return
+                console.log(this.weightunit);
+                if (!this.errors.length) {
+                    console.log("tryed");
+                    if (this.isSaving) {
+                        console.log("skyped");
+                        return
+                    }
+
+                    this.isSaving = true;
+
+                    const params = {
+                        description: this.description,
+
+                        fromestado_id: this.fromestado_id,
+                        frommunicipio_id: this.frommunicipio_id,
+                        fromaddress: this.fromaddress,
+                        departuretime: this.departuretime,
+
+                        toestado_id: this.toestado_id,
+                        tomunicipio_id: this.tomunicipio_id,
+                        toaddress: this.toaddress,
+                        arrivaltime: this.arrivaltime,
+
+                        weight: this.weight,
+                        weightunit: this.weightunit,
+                    };
+
+                    axios.post('/loads', params)
+                    .then((response) => {
+                        //reset all inputs
+                        Object.assign(this.$data, this.$options.data.call(this));
+                        this.$swal.fire({
+                          title: 'Grandioso',
+                          text: 'Se ha guardado correctamente la carga',
+                          type: 'success',
+                          confirmButtonText: 'Genial'
+                        })
+                        this.$router.push({name: 'myloads'})
+                    });
                 }
-
-                this.isSaving = true;
-
-                const params = {
-                    description: this.description,
-
-                    fromestado_id: this.fromestado_id,
-                    frommunicipio_id: this.frommunicipio_id,
-                    fromaddress: this.fromaddress,
-                    departuretime: this.departuretime,
-
-                    toestado_id: this.toestado_id,
-                    tomunicipio_id: this.tomunicipio_id,
-                    toaddress: this.toaddress,
-                    arrivaltime: this.arrivaltime,
-
-                    weight: this.weight,
-                    weightunit: this.weightunit,
-                };
-
-                axios.post('/loads', params)
-                .then((response) => {
-                    //reset all inputs
-                    Object.assign(this.$data, this.$options.data.call(this));
-                    this.$swal.fire({
-                      title: 'Grandioso',
-                      text: 'Se ha guardado correctamente la carga',
-                      type: 'success',
-                      confirmButtonText: 'Genial'
-                    })
-                    this.$router.push({name: 'myloads'})
-                });
             },
             checkForm: function (e) {
-                  if (this.weight &&
-                            this.toaddress &&
-                            this.tomunicipio_id &&
-                            this.toestado_id &&
-                            this.departuretime &&
-                            this.fromaddress &&
-                            this.frommunicipio_id &&
-                            this.fromestado_id &&
-                            this.toaddress &&
-                             this.arrivaltime) {
+                this.errors = [];
+                if (this.weight &&
+                    this.weightunit &&
+                    this.toaddress &&
+                    this.tomunicipio_id &&
+                    this.toestado_id &&
+                    this.departuretime &&
+                    this.fromaddress &&
+                    this.frommunicipio_id &&
+                    this.fromestado_id &&
+                    this.toaddress &&
+                    this.arrivaltime) {
                     return true;
-                  }
+                }
 
-                  this.errors = [];
-
-                  if (!this.weight) {
-                    this.errors.push('Peso requerido');
-                  }
-                  if (!this.toaddress) {
-                    this.errors.push('Direccion de destino requerido');
-                  }
-                  if (!this.tomunicipio_id) {
-                    this.errors.push('municipio de destino requerido');
-                  }
-                  if (!this.toestado_id) {
-                    this.errors.push('Estado de destino requerido');
-                  }
-                  if (!this.departuretime) {
-                    this.errors.push('Fecha y hora de salida requerido');
-                  }
-                  if (!this.fromaddress) {
-                    this.errors.push('Direccion de origen requerido');
-                  }
-                  if (!this.frommunicipio_id) {
-                    this.errors.push('municipio de origen requerido');
-                  }
-                  if (!this.fromestado_id) {
-                    this.errors.push('Estado de origen requerido');
-                  }
-                  if (!this.arrivaltime) {
-                    this.errors.push('Fecha y hora de llegada requerido');
-                  }
-
-
-                  e.preventDefault();
+                if (!this.weight) {
+                this.errors.push('Peso requerido');
+                }
+                if (!this.weightunit) {
+                this.errors.push('Unidad de peso requerido');
+                }
+                if (!this.toaddress) {
+                this.errors.push('Direccion de destino requerido');
+                }
+                if (!this.tomunicipio_id) {
+                this.errors.push('municipio de destino requerido');
+                }
+                if (!this.toestado_id) {
+                this.errors.push('Estado de destino requerido');
+                }
+                if (!this.departuretime) {
+                this.errors.push('Fecha y hora de salida requerido');
+                }
+                if (!this.fromaddress) {
+                this.errors.push('Direccion de origen requerido');
+                }
+                if (!this.frommunicipio_id) {
+                this.errors.push('municipio de origen requerido');
+                }
+                if (!this.fromestado_id) {
+                this.errors.push('Estado de origen requerido');
+                }
+                if (!this.arrivaltime) {
+                this.errors.push('Fecha y hora de llegada requerido');
+                }
+                e.preventDefault();
             }
         },
         mounted() {

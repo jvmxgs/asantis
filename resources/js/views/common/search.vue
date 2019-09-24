@@ -170,7 +170,6 @@
                 var size = Math.floor(Math.log(Math.abs(mx)) / Math.LN10);
                 var magnitude = Math.pow(10, size) / 2;
                 var yMax = Math.ceil(mx / magnitude) * magnitude;
-                console.log({size, magnitude, yMax});
                 if (yMax > upper) {return upper};
                 return yMax;
             }
