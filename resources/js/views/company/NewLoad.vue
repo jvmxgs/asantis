@@ -13,23 +13,28 @@
                 <h4>Datos generales:</h4>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <label for="loadnumber">Numero de carga:</label>
-                    <input type="text" v-model="loadnumber" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label for="weight">Peso:</label>
-                    <input type="number"  v-model="weight" class="form-control" />
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="fas fa-weight"></i>
+                    </span>
+                  </div>
+                  <input type="number" placeholder="Peso" v-model="weight" class="form-control" />
+                  <div class="input-group-append">
+                    <select v-model="weightunit" class="form-control">
+                        <option>Kilos</option>
+                        <option>Libras</option>
+                    </select>
+                  </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="description">Descripción:</label>
-                    <textarea class="form-control"  v-model="description" rows="4"></textarea>
+                    <textarea class="form-control" placeholder="Descripcion del viaje" v-model="description" rows="4"></textarea>
                 </div>
             </div>
         </div>
-        <hr />
         <div class="row">
             <div class="col-md-6">
                 <h4>Sale desde:</h4>
@@ -48,6 +53,10 @@
                 <div class="form-group">
                     <label for="pickupfrom">Dirección:</label>
                     <input type="text" class="form-control" v-model="fromaddress" />
+                </div>
+                <div class="form-group">
+                    <label for="pickupfrom">Fecha y hora de salida:</label>
+                    <date-picker v-model="departuretime" :config="options"></date-picker>
                 </div>
             </div>
             <div class="col-md-6">
@@ -68,6 +77,10 @@
                     <label for="pickupfrom">Dirección:</label>
                     <input type="text" class="form-control" id="deliverto" v-model="toaddress" />
                 </div>
+                <div class="form-group">
+                    <label for="pickupfrom">Fecha y hora de llegada:</label>
+                    <date-picker v-model="arrivaltime" :config="options"></date-picker>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -80,36 +93,72 @@
     </form>
 </template>
 <script>
+    import datePicker from 'vue-bootstrap-datetimepicker';
+    import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+
     export default {
+        components: {
+            datePicker
+        },
         data() {
             return {
+                isSaving: false,
                 estados: [],
                 municipiosFrom: [],
                 municipiosTo: [],
                 errors: [],
-                loadnumber: '',
                 weight: '',
+                weightunit: '',
                 description: '',
+
                 fromestado_id: '',
                 frommunicipio_id: '',
                 fromaddress: '',
+                departuretime: '',
+
                 toestado_id: '',
                 tomunicipio_id: '',
-                toaddress: ''
+                toaddress: '',
+                arrivaltime: '',
+
+                date: new Date(),
+                options: {
+                    format: 'YYYY/MM/DD H:m',
+                    useCurrent: false,
+                    showClear: true,
+                    showClose: true,
+                    icons: {
+                      time: 'fas fa-clock',
+                      date: 'fas fa-calendar',
+                      clear: 'fas fa-trash-alt',
+                      close: 'fas fa-times-circle'
+                    }
+                }
             }
         },
         methods: {
             newLoad () {
+                if (this.isSaving) {
+                    return
+                }
+
+                this.isSaving = true;
+
                 const params = {
-                    loadnumber: this.loadnumber,
                     description: this.description,
+
                     fromestado_id: this.fromestado_id,
                     frommunicipio_id: this.frommunicipio_id,
                     fromaddress: this.fromaddress,
+                    departuretime: this.departuretime,
+
                     toestado_id: this.toestado_id,
                     tomunicipio_id: this.tomunicipio_id,
                     toaddress: this.toaddress,
+                    arrivaltime: this.arrivaltime,
+
                     weight: this.weight,
+                    weightunit: this.weightunit,
                 };
 
                 axios.post('/loads', params)
@@ -126,23 +175,21 @@
                 });
             },
             checkForm: function (e) {
-                  if (this.loadnumber &&
-                            this.weight &&
+                  if (this.weight &&
                             this.toaddress &&
                             this.tomunicipio_id &&
                             this.toestado_id &&
+                            this.departuretime &&
                             this.fromaddress &&
                             this.frommunicipio_id &&
                             this.fromestado_id &&
-                             this.deliverto) {
+                            this.toaddress &&
+                             this.arrivaltime) {
                     return true;
                   }
 
                   this.errors = [];
 
-                  if (!this.loadnumber) {
-                    this.errors.push('Numero de carga requerido');
-                  }
                   if (!this.weight) {
                     this.errors.push('Peso requerido');
                   }
@@ -155,6 +202,9 @@
                   if (!this.toestado_id) {
                     this.errors.push('Estado de destino requerido');
                   }
+                  if (!this.departuretime) {
+                    this.errors.push('Fecha y hora de salida requerido');
+                  }
                   if (!this.fromaddress) {
                     this.errors.push('Direccion de origen requerido');
                   }
@@ -163,6 +213,9 @@
                   }
                   if (!this.fromestado_id) {
                     this.errors.push('Estado de origen requerido');
+                  }
+                  if (!this.arrivaltime) {
+                    this.errors.push('Fecha y hora de llegada requerido');
                   }
 
 

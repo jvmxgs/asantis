@@ -1,5 +1,6 @@
 import Dashboard from './../views/Dashboard'
 import Search from './../views/common/search'
+import Load from './../views/common/load'
 
 export default [
     {
@@ -14,6 +15,13 @@ export default [
                 name: 'search',
                 components: {
                     content: Search
+                }
+            },
+            {
+                path: 'loads/:loadnumber',
+                name: 'loads',
+                components: {
+                    content: Load
                 }
             }]
     }

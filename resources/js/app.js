@@ -1,7 +1,6 @@
 //require('./bootstrap');
 window.Vue = require('vue');
 
-import VueFragment from "vue-fragment";
 import 'es6-promise/auto'
 import axios from 'axios'
 import './bootstrap'
@@ -25,7 +24,6 @@ const i18n = new VueInternationalization({
 });
 
 Vue.use(VueSweetalert2)
-Vue.use(VueFragment.Plugin)
 Vue.router = Router
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)

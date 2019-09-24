@@ -17,17 +17,23 @@ class CreateLoadsTable extends Migration
             $table->bigIncrements('id');
             $table->string('loadnumber')->unique();
             $table->string('description');
+
             $table->unsignedBigInteger('fromestado_id');
             $table->foreign('fromestado_id')->references('id')->on('estados');
             $table->unsignedBigInteger('frommunicipio_id');
             $table->foreign('frommunicipio_id')->references('id')->on('municipios');
             $table->string('fromaddress')->nullable();
+            $table->dateTime('departuretime')->nullable();
+
             $table->unsignedBigInteger('toestado_id');
             $table->foreign('toestado_id')->references('id')->on('estados');
             $table->unsignedBigInteger('tomunicipio_id');
             $table->foreign('tomunicipio_id')->references('id')->on('municipios');
             $table->string('toaddress');
-            $table->string('weight');
+            $table->dateTime('arrivaltime')->nullable();
+
+            $table->unsignedInteger('weight');
+            $table->enum('weightunit', ['kg', 'lb']);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

@@ -20,6 +20,7 @@ Route::resource('localidades', 'API\LocalidadesController')->only([
 ]);
 
 Route::post('search', 'SearchController@search');
+Route::get('rangeweight', 'SearchController@rangeWeight');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

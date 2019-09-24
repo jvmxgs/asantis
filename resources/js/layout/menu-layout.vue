@@ -7,10 +7,10 @@
             <div class="card-body">
                 <ul class="nav flex-column nav-pills navbar-light bg-white">
                     <li class="nav-item active">
-                        <router-link :to="{name: 'search'}" class="nav-link">Buscar</router-link>
+                        <router-link :to="{name: 'search'}" class="nav-link"><i class="fas fa-search"></i> Buscar</router-link>
                     </li>
                     <li class="nav-item active" v-for="menuItem in menuItems[menuOwner]">
-                        <router-link :to="menuItem.link" class="nav-link">{{menuItem.title}}</router-link>
+                        <router-link :to="menuItem.link" class="nav-link"><i :class="'fas fa-' + menuItem.icon"></i> {{menuItem.title}}</router-link>
                     </li>
                 </ul>
             </div>
@@ -27,7 +27,7 @@
                         {title: 'Panel de control', icon: '', link: {name :'dashboard'}}
                     ],
                     company: [
-                        {title: 'Mis cargas', icon: '', link: {name :'myloads'}}
+                        {title: 'Mis viajes', icon: 'truck-loading', link: {name :'myloads'}}
                     ],
                     carrier: [
                         //carrier menu
