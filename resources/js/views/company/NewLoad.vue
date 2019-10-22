@@ -36,20 +36,72 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-6">
                 <h4>Sale desde:</h4>
-                <div class="form-group">
-                    <label for="pickupfrom">Estado:</label>
-                    <select class="form-control" v-model="fromestado_id">
-                        <option v-for="estado in estados" :value="estado.id">{{estado.nombre}}</option>
-                    </select>
+                <div class="form-group autocomplete" v-if="origentexto === ''">
+                    <label for="pickupfrom">Buscar cabecera municipal:</label>
+                    <input type="text" class="form-control autocomplete" v-model="origeninput" v-on:keyup="getLoacalidades(origeninput, 'origen')" />
+                    <ul class="autocompleteresults list-group">
+                        <li class="list-group-item" v-for="acresult in origenresults" v-on:click="handleSelectMunicipioFrom(acresult, 'origen')">{{acresult.nombre}} - {{acresult.estado.nombre}}</li>
+                    </ul>
+                </div>
+                <div class="alert alert-info" role="alert" v-if="origentexto">
+                    {{ origentexto }}
+                    <button type="button" class="close" aria-label="Close" v-on:click="origenclose">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="form-group" v-if="localidadesFrom.length">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" v-model="origenenlocalidad" />
+                        <label class="form-check-label" for="origenenlocalidad">El origen se encuentra en una localidad de este municipio</label>
+                    </div>
+                    <div class="form-group" v-if="origenenlocalidad">
+                        <label for="fromlocalidad_id">Localidad:</label>
+                        <select class="form-control" v-model="fromlocalidad_id">
+                            <option v-for="localidad in localidadesFrom" :value="localidad.id">{{localidad.nombre}}</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="pickupfrom">Municipio:</label>
-                    <select class="form-control" v-model="frommunicipio_id">
-                        <option v-for="municipio in municipiosFrom" :value="municipio.id">{{municipio.nombre}}</option>
-                    </select>
+                    <label for="toaddress">Dirección:</label>
+                    <input type="text" class="form-control" v-model="toaddress" />
+                </div>
+                <div class="form-group">
+                    <label for="arrivaltime">Fecha y hora de salida:</label>
+                    <date-picker v-model="arrivaltime" :config="options"></date-picker>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <h4>Se dirige hacia:</h4>
+                <div class="form-group autocomplete" v-if="destinotexto === ''">
+                    <label for="pickupfrom">Buscar cabecera municipal:</label>
+                    <input type="text" class="form-control autocomplete" v-model="destinoinput" v-on:keyup="getLoacalidades(destinoinput)" />
+                    <ul class="autocompleteresults list-group">
+                        <li class="list-group-item" v-for="acresult in destinoresults" v-on:click="handleSelectMunicipioFrom(acresult)">{{acresult.nombre}} - {{acresult.estado.nombre}}</li>
+                    </ul>
+                </div>
+                <div class="alert alert-info" role="alert" v-if="destinotexto">
+                    {{ destinotexto }}
+                    <button type="button" class="close" aria-label="Close" v-on:click="destinoclose">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="form-group" v-if="localidadesTo.length">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" v-model="destinoenlocalidad" />
+                        <label class="form-check-label" for="destinoenlocalidad">El destino se encuentra en una localidad de este municipio</label>
+                    </div>
+                    <div class="form-group" v-if="destinoenlocalidad">
+                        <label for="tolocalidad_id">Localidad:</label>
+                        <select class="form-control" v-model="tolocalidad_id">
+                            <option v-for="localidad in localidadesTo" :value="localidad.id">{{localidad.nombre}}</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="pickupfrom">Dirección:</label>
@@ -60,30 +112,8 @@
                     <date-picker v-model="departuretime" :config="options"></date-picker>
                 </div>
             </div>
-            <div class="col-md-6">
-                <h4>Se dirige hacia:</h4>
-                <div class="form-group">
-                    <label for="pickupfrom">Estado:</label>
-                    <select class="form-control" v-model="toestado_id">
-                        <option v-for="estado in estados" :value="estado.id">{{estado.nombre}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="pickupfrom">Municipio:</label>
-                    <select class="form-control" v-model="tomunicipio_id">
-                        <option v-for="municipio in municipiosTo" :value="municipio.id">{{municipio.nombre}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="pickupfrom">Dirección:</label>
-                    <input type="text" class="form-control" id="deliverto" v-model="toaddress" />
-                </div>
-                <div class="form-group">
-                    <label for="pickupfrom">Fecha y hora de llegada:</label>
-                    <date-picker v-model="arrivaltime" :config="options"></date-picker>
-                </div>
-            </div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <hr/>
@@ -93,6 +123,24 @@
         </div>
     </form>
 </template>
+<style scoped>
+    .autocomplete {
+        position: relative;
+        display: inline-block;
+        width:100%;
+    }
+    .autocompleteresults li:hover {
+        background:#eee;
+    }
+    .autocompleteresults {
+        list-style-type:none;
+        position: absolute;
+        z-index: 99;
+        top: 100%;
+        left: 0;
+        right: 0;
+    }
+</style>
 <script>
     import datePicker from 'vue-bootstrap-datetimepicker';
     import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
@@ -104,23 +152,31 @@
         data() {
             return {
                 isSaving: false,
-                estados: [],
-                municipiosFrom: [],
-                municipiosTo: [],
                 errors: [],
-                weight: '',
-                weightunit: '',
-                description: '',
 
-                fromestado_id: '',
-                frommunicipio_id: '',
+                origeninput: '',
+                origentexto: '',
+                origenmunicipioid: '',
+                origenresults: [],
+                origenenlocalidad: false,
+                localidadesTo: [],
+                tolocalidad_id: '',
+                toaddress: '',
+                arrivaltime: '',
+
+                destinoinput: '',
+                destinotexto: '',
+                destinomunicipioid: '',
+                destinoresults: [],
+                destinoenlocalidad: false,
+                localidadesFrom: [],
+                fromlocalidad_id: '',
                 fromaddress: '',
                 departuretime: '',
 
-                toestado_id: '',
-                tomunicipio_id: '',
-                toaddress: '',
-                arrivaltime: '',
+                weight: '',
+                weightunit: '',
+                description: '',
 
                 date: new Date(),
                 options: {
@@ -139,11 +195,8 @@
         },
         methods: {
             newLoad () {
-                console.log(this.weightunit);
                 if (!this.errors.length) {
-                    console.log("tryed");
                     if (this.isSaving) {
-                        console.log("skyped");
                         return
                     }
 
@@ -152,13 +205,13 @@
                     const params = {
                         description: this.description,
 
-                        fromestado_id: this.fromestado_id,
-                        frommunicipio_id: this.frommunicipio_id,
+                        origenmunicipioid: this.origenmunicipioid,
+                        fromlocalidad_id: this.fromlocalidad_id,
                         fromaddress: this.fromaddress,
                         departuretime: this.departuretime,
 
-                        toestado_id: this.toestado_id,
-                        tomunicipio_id: this.tomunicipio_id,
+                        destinomunicipioid: this.destinomunicipioid,
+                        tolocalidad_id: this.tolocalidad_id,
                         toaddress: this.toaddress,
                         arrivaltime: this.arrivaltime,
 
@@ -184,67 +237,95 @@
                 this.errors = [];
                 if (this.weight &&
                     this.weightunit &&
-                    this.toaddress &&
-                    this.tomunicipio_id &&
-                    this.toestado_id &&
-                    this.departuretime &&
                     this.fromaddress &&
-                    this.frommunicipio_id &&
-                    this.fromestado_id &&
+                    this.departuretime &&
+                    this.fromlocalidad_id &&
                     this.toaddress &&
-                    this.arrivaltime) {
+                    this.arrivaltime &&
+                    this.tolocalidad_id) {
                     return true;
                 }
 
                 if (!this.weight) {
-                this.errors.push('Peso requerido');
+                    this.errors.push('Peso requerido');
                 }
                 if (!this.weightunit) {
-                this.errors.push('Unidad de peso requerido');
+                    this.errors.push('Unidad de peso requerido');
                 }
-                if (!this.toaddress) {
-                this.errors.push('Direccion de destino requerido');
-                }
-                if (!this.tomunicipio_id) {
-                this.errors.push('municipio de destino requerido');
-                }
-                if (!this.toestado_id) {
-                this.errors.push('Estado de destino requerido');
-                }
-                if (!this.departuretime) {
-                this.errors.push('Fecha y hora de salida requerido');
+                if (!this.fromlocalidad_id) {
+                    this.errors.push('Origen requerido');
                 }
                 if (!this.fromaddress) {
-                this.errors.push('Direccion de origen requerido');
+                    this.errors.push('Direccion de origen requerido');
                 }
-                if (!this.frommunicipio_id) {
-                this.errors.push('municipio de origen requerido');
+                if (!this.departuretime) {
+                    this.errors.push('Fecha y hora de salida requerido');
                 }
-                if (!this.fromestado_id) {
-                this.errors.push('Estado de origen requerido');
+                if (!this.tolocalidad_id) {
+                    this.errors.push('Destino requerido');
+                }
+                if (!this.toaddress) {
+                    this.errors.push('Direccion de destino requerido');
                 }
                 if (!this.arrivaltime) {
-                this.errors.push('Fecha y hora de llegada requerido');
+                    this.errors.push('Fecha y hora de llegada requerido');
                 }
                 e.preventDefault();
-            }
-        },
-        mounted() {
-            axios.get('/localidades').then((response) =>{
-                this.estados = response.data;
-            });
-        },
-        watch: {
-            fromestado_id: function (newVal) {
-                axios.get('/localidades/' + newVal).then((response) =>{
-                    this.municipiosFrom = response.data;
+            },
+            getLoacalidades : function (searchtext, on) {
+                axios.get('/localidades/buscarlocalidad/' + searchtext).then((response) =>{
+                    if (on === "origen") {
+                        this.origenresults = response.data;
+                    } else {
+                        this.destinoresults = response.data;
+                    }
                 });
             },
-            toestado_id: function (newVal) {
-                axios.get('/localidades/' + newVal).then((response) =>{
-                    this.municipiosTo = response.data;
-                });
+            handleSelectMunicipioFrom : function (item, on) {
+                if (on === "origen") {
+                    this.origeninput = item.nombre;
+                    this.origentexto = item.nombre + " - " + item.estado.nombre;
+                    this.origenmunicipioid = item.id;
+                    this.origenresults = [];
+                    this.fromlocalidad_id = '0';
+                } else {
+                    this.destinoinput = item.nombre;
+                    this.destinotexto = item.nombre + " - " + item.estado.nombre;
+                    this.destinomunicipioid = item.id;
+                    this.destinoresults = [];
+                    this.tolocalidad_id = '0';
+                }
+            },
+            origenclose: function () {
+                this.origentexto = "";
+                this.origenmunicipioid = "";
+                this.localidadesFrom = "";
+                this.origenenlocalidad = false;
+                this.fromlocalidad_id = '';
+            },
+            destinoclose: function () {
+                this.destinotexto = "";
+                this.destinomunicipioid = "";
+                this.localidadesTo = "";
+                this.destinoenlocalidad = false;
+                this.tolocalidad_id = '';
             }
+        },
+        watch: {
+            origentexto: function () {
+                if (this.origenmunicipioid) {
+                    axios.get('/localidades/' + this.origenmunicipioid).then((response) =>{
+                        this.localidadesFrom = response.data;
+                    });
+                }
+            },
+            destinotexto: function () {
+                if (this.destinomunicipioid) {
+                    axios.get('/localidades/' + this.destinomunicipioid).then((response) =>{
+                        this.localidadesTo = response.data;
+                    });
+                }
+            },
         }
     }
 </script>

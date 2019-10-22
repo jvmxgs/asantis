@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Load extends Model
 {
-    public function frommunicipio()
+    public function fromlocalidad()
     {
         return $this
-            ->belongsTo('App\Municipio', 'frommunicipio_id')
-            ->with('estado');
+            ->belongsTo('App\Localidade', 'fromlocalidad_id')
+            ->with('municipio');
     }
 
-    public function tomunicipio()
+    public function tolocalidad()
     {
         return $this
-            ->belongsTo('App\Municipio', 'tomunicipio_id')
-            ->with('estado');
+            ->belongsTo('App\Localidade', 'tolocalidad_id')
+            ->with('municipio');
     }
 }

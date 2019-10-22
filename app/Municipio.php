@@ -12,9 +12,9 @@ class Municipio extends Model
             ->belongsTo('App\Estado');
     }
 
-    public function loads()
+    public function localidade()
     {
         return $this
-            ->hasMany('App\Load');
+            ->hasMany('App\Localidade');
     }
 }

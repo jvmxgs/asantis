@@ -31,13 +31,15 @@
                             <td>
                                 <div class="clearfix">
                                     <div class="float-left">
-                                        <strong>{{ load.frommunicipio.estado.nombre }}</strong>
-                                        <span class="d-block">{{ load.frommunicipio.nombre }}</span>
+                                        <strong>{{ load.fromlocalidad.municipio.estado.nombre }}</strong>
+                                        <span class="d-block">{{ load.fromlocalidad.municipio.nombre }}</span>
+                                        <span class="d-block">{{ load.fromlocalidad.nombre }}</span>
                                         <small class="text-muted">{{ load.departuretime }}</small>
                                     </div>
                                     <div class="float-right text-right">
-                                        <strong>{{ load.tomunicipio.estado.nombre }}</strong>
-                                        <span class="d-block">{{ load.tomunicipio.nombre }}</span>
+                                        <strong>{{ load.tolocalidad.municipio.estado.nombre }}</strong>
+                                        <span class="d-block">{{ load.tolocalidad.municipio.nombre }}</span>
+                                        <span class="d-block">{{ load.tolocalidad.nombre }}</span>
                                         <small class="text-muted">{{ load.arrivaltime }}</small>
                                     </div>
                                 </div>

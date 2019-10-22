@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Load;
 use App\Estado;
 use App\Municipio;
+use App\Localidade;
 use Carbon\Carbon;
 
 class LoadController extends Controller
@@ -20,7 +21,7 @@ class LoadController extends Controller
 
     public function index()
     {
-        $load = Load::with('frommunicipio', 'tomunicipio')
+        $load = Load::with('fromlocalidad', 'tolocalidad')
                 ->where('user_id', auth()->id())
                 ->orderBy('updated_at', 'DESC')
                 ->get();
@@ -35,13 +36,25 @@ class LoadController extends Controller
         $load->loadnumber = $this->generateLoadNumber();
         $load->description = $request->description;
 
-        $load->fromestado_id = $request->fromestado_id;
-        $load->frommunicipio_id = $request->frommunicipio_id;
+        if ($request->fromlocalidad_id === "0") {
+            $load->fromlocalidad_id = Localidade::where('municipio_id', $request->origenmunicipioid)
+                    ->where('clave', '0001')
+                    ->first()->id;
+        } else {
+            $load->fromlocalidad_id = $request->fromlocalidad_id;
+        }
+
         $load->fromaddress = $request->fromaddress;
         $load->departuretime = $request->departuretime;
 
-        $load->toestado_id = $request->toestado_id;
-        $load->tomunicipio_id = $request->tomunicipio_id;
+        if ($request->tolocalidad_id === "0") {
+            $load->tolocalidad_id = Localidade::where('municipio_id', $request->destinomunicipioid)
+                    ->where('clave', '0001')
+                    ->first()
+                    ->id;
+        } else {
+            $load->tolocalidad_id = $request->tolocalidad_id;
+        }
         $load->toaddress = $request->toaddress;
         $load->arrivaltime = $request->arrivaltime;
 
@@ -54,6 +67,7 @@ class LoadController extends Controller
 
     public function show($loadnumber)
     {
+        
         $load = Load::with('frommunicipio', 'tomunicipio')
                 ->where('loadnumber', $loadnumber)
                 ->first();
