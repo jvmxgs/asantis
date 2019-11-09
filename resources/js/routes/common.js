@@ -1,6 +1,6 @@
 import Dashboard from './../views/Dashboard'
 import Search from './../views/common/search'
-import Load from './../views/common/load'
+import Freight from './../views/common/freight'
 
 export default [
     {
@@ -18,10 +18,10 @@ export default [
                 }
             },
             {
-                path: 'loads/:loadnumber',
-                name: 'loads',
+                path: 'freights/:freightnumber',
+                name: 'freights',
                 components: {
-                    content: Load
+                    content: Freight
                 }
             }]
     }

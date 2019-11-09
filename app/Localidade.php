@@ -9,13 +9,18 @@ class Localidade extends Model
     public function municipio()
     {
         return $this
-            ->belongsTo('App\Municipio')
-            ->with('estado');
+            ->belongsTo('App\Municipio');
     }
 
-    public function loads()
+    public function estado()
     {
         return $this
-            ->hasMany('App\Load');
+            ->belongsTo('App\Estado');
+    }
+
+    public function freights()
+    {
+        return $this
+            ->hasMany('App\Freight');
     }
 }

@@ -2,12 +2,23 @@
 
 use Illuminate\Http\Request;
 
-Route::resource('loads', 'API\LoadController');
+Route::resource('freights', 'API\FreightController');
+
+Route::get('estados/{idestado}/municipios', 'API\EstadosController@municipios');
+Route::resource('estados', 'API\EstadosController')->only([
+    'index'
+]);
+
+Route::get('municipios/{idmunicipio}/localidades', 'API\MunicipiosController@localidades');
 
 Route::get('localidades/buscarlocalidad/{busqueda}', 'API\LocalidadesController@buscarlocalidad');
 
 Route::resource('localidades', 'API\LocalidadesController')->only([
     'index', 'show'
+]);
+
+Route::resource('proposals', 'API\ProposalsController')->only([
+    'index', 'store', 'show'
 ]);
 
 

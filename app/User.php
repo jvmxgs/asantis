@@ -54,6 +54,12 @@ class User extends Authenticatable implements JWTSubject
             ->belongsTo('App\Role');
     }
 
+    public function proposals()
+    {
+        return $this
+            ->hasMany('App\Proposal');
+    }
+
 
     public function authorizeRoles($roles)
     {

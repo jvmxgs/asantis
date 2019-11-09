@@ -27,10 +27,10 @@
                         {title: 'Panel de control', icon: '', link: {name :'dashboard'}}
                     ],
                     company: [
-                        {title: 'Mis viajes', icon: 'truck-loading', link: {name :'myloads'}}
+                        {title: 'Mis viajes', icon: 'truck-loading', link: {name :'myfreights'}}
                     ],
                     carrier: [
-                        //carrier menu
+                        {title: 'Mis propuestas', icon: 'comment-dots', link: {name :'myproposals'}}
                     ]
                 }
             }

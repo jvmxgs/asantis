@@ -5,22 +5,11 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Estado;
 use App\Municipio;
 use App\Localidade;
 
 class LocalidadesController extends Controller
 {
-
-    public function index()
-    {
-        return Estado::all();
-    }
-
-    public function show($id)
-    {
-        return Municipio::find($id)->localidade;
-    }
 
     public function buscarlocalidad($busqueda)
     {

@@ -1,22 +1,21 @@
-import Dashboard from './../views/Dashboard'
-import NewLoad from './../views/company/NewLoad'
-import MyLoads from './../views/company/MyLoads'
+import NewFreight from './../views/company/NewFreight'
+import MyFreights from './../views/company/MyFreights'
 
 export default [{
-                path: 'myloads',
-                name: 'myloads',
+                path: 'myfreights',
+                name: 'myfreights',
                 components: {
-                    content: MyLoads
+                    content: MyFreights
                 },
                 meta: {
                     auth: {roles: 'company', redirect: {name:'login'}, forbiddenRedirect: '/403'}
                 }
             },
             {
-                path: 'newload',
-                name: 'newload',
+                path: 'newfreight',
+                name: 'newfreight',
                 components: {
-                    content: NewLoad
+                    content: NewFreight
                 },
                 meta: {
                     auth: {roles: 'company', redirect: {name:'login'}, forbiddenRedirect: '/403'}

@@ -7,7 +7,7 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-12" v-if="weightslider.rangeData.length">
                     <label for="range">Rango de peso (kg):</label>
                     <vue-slider :min="weightslider.min" :tooltip="'always'" :marks="weightslider.rangeData" :max="weightslider.max" v-model="weightslider.range">
                     </vue-slider>
@@ -20,18 +20,25 @@
                         <h4>Origen</h4>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="fromestado_id">Estado:</label>
                             <select class="form-control" v-model="fromestado_id" v-on:input="changeFromEstado($event.target.value)">
                                 <option value="">Cualquiera</option>
                                 <option v-for="estado in estados" :value="estado.id">{{estado.nombre}}</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12" v-if="municipiosFrom.length">
                             <label for="frommunicipio_id">Municipio:</label>
-                            <select class="form-control" v-model="frommunicipio_id">
+                            <select class="form-control" v-model="frommunicipio_id" v-on:input="changeFromMunicipio($event.target.value)">
                                 <option value="">Cualquiera</option>
                                 <option v-for="municipio in municipiosFrom" :value="municipio.id">{{municipio.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12" v-if="localidadesFrom.length">
+                            <label for="fromlocalidad_id">Localidad:</label>
+                            <select class="form-control" v-model="fromlocalidad_id">
+                                <option value="">Cualquiera</option>
+                                <option v-for="localidad in localidadesFrom" :value="localidad.id">{{localidad.nombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -41,18 +48,25 @@
                         <h4>Destino</h4>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="toestado_id">Estado:</label>
                             <select class="form-control" v-model="toestado_id" v-on:input="changeToEstado($event.target.value)">
                                 <option value="">Cualquiera</option>
                                 <option v-for="estado in estados" :value="estado.id">{{estado.nombre}}</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12" v-if="municipiosTo.length">
                             <label for="tomunicipio_id">Municipio:</label>
-                            <select class="form-control" v-model="tomunicipio_id">
+                            <select class="form-control" v-model="tomunicipio_id" v-on:input="changeToMunicipio($event.target.value)">
                                 <option value="">Cualquiera</option>
                                 <option v-for="municipio in municipiosTo" :value="municipio.id">{{municipio.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12" v-if="localidadesTo.length">
+                            <label for="tolocalidad_id">Localidad:</label>
+                            <select class="form-control" v-model="tolocalidad_id">
+                                <option value="">Cualquiera</option>
+                                <option v-for="localidad in localidadesTo" :value="localidad.id">{{localidad.nombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -67,9 +81,9 @@
         </form>
         <div class="row">
             <div class="col-md-12">
-                <search-result :loads="loads">
+                <search-result :freights="freights">
                 </search-result>
-                <div class="alert alert-warning col-md-12" role="alert" v-if="!loads.length && searchdone">
+                <div class="alert alert-warning col-md-12" role="alert" v-if="!freights.length && searchdone">
                     <i class="fas fa-exclamation-triangle fa-lg"></i> No se encontraron registros, con los parametro de busqueda
                 </div>
                 <div class="alert alert-info col-md-12" role="alert" v-if="!searchdone">
@@ -96,21 +110,25 @@
                 estados: [],
                 municipiosFrom: [],
                 municipiosTo: [],
+                localidadesFrom: [],
+                localidadesTo: [],
                 toestado_id: '',
                 fromestado_id: '',
                 tomunicipio_id: '',
                 frommunicipio_id: '',
+                tolocalidad_id: '',
+                fromlocalidad_id: '',
                 weightslider: {
                     min: 0,
                     max: 100,
                     range: [20, 50],
                     rangeData: []
                 },
-                loads: []
+                freights: []
             }
         },
         mounted() {
-            axios.get('/localidades').then((response) => {
+            axios.get('/estados').then((response) => {
                 this.estados = response.data;
             })
 
@@ -130,13 +148,15 @@
                     toestado_id : this.toestado_id,
                     frommunicipio_id : this.frommunicipio_id,
                     tomunicipio_id : this.tomunicipio_id,
+                    fromlocalidad_id : this.fromlocalidad_id,
+                    tolocalidad_id : this.tolocalidad_id,
                     keywords : this.keywords,
                     rangeweight: this.weightslider.range
                 }
 
                 axios.post('/search', params)
                 .then((response) => {
-                    this.loads = response.data
+                    this.freights = response.data
                     this.searchdone = true
                 }).catch((e) => {
                     console.log(e)
@@ -144,14 +164,28 @@
             },
             changeFromEstado : function (e) {
                 this.frommunicipio_id = '';
-                axios.get('/localidades/' + e).then((response) =>{
+                this.fromlocalidad_id = '';
+                axios.get('/estados/' + e + '/municipios').then((response) =>{
                     this.municipiosFrom = response.data;
                 });
             },
             changeToEstado : function (e) {
                 this.tomunicipio_id = '';
-                axios.get('/localidades/' + e).then((response) =>{
+                this.tolocalidad_id = '';
+                axios.get('/estados/' + e + '/municipios').then((response) =>{
                     this.municipiosTo = response.data;
+                });
+            },
+            changeFromMunicipio : function (e) {
+                this.fromlocalidad_id = '';
+                axios.get('/municipios/' + e + '/localidades').then((response) =>{
+                    this.localidadesFrom = response.data;
+                });
+            },
+            changeToMunicipio : function (e) {
+                this.tolocalidad_id = '';
+                axios.get('/municipios/' + e + '/localidades').then((response) =>{
+                    this.localidadesTo = response.data;
                 });
             },
             getRange: function (upper, lower) {
