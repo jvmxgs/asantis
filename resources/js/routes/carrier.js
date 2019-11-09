@@ -1,4 +1,4 @@
-import MyProposals from './../views/carrier/MyProposals'
+import MyProposals from './../views/carrier/myproposals'
 
 export default [{
                 path: 'myproposals',
