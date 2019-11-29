@@ -27,5 +27,10 @@ class RoleTableSeeder extends Seeder
         $role->name = 'carrier';
         $role->description = 'Transportista';
         $role->save();
+
+        $role = new Role();
+        $role->name = 'representative';
+        $role->description = 'Asantis Representative';
+        $role->save();
     }
 }

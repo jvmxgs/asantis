@@ -128,11 +128,13 @@ export default {
         }
     },
     "es": {
-        "E-Mail Address": "Usuario o Correo electrónico",
+        "E-Mail Address": "Correo electrónico",
+        "E-Mail Address or Username": "Usuario o Correo electrónico",
         "Password": "Contraseña",
         "Remember Me": "Recuérdame",
         "Login": "Acceder",
         "Forgot Your Password?": "¿Olvidaste tu contraseña?",
+        "Register me": "Registrarme",
         "Register": "Registro",
         "Home": "Inicio",
         "Name": "Nombre",
@@ -158,6 +160,9 @@ export default {
         "If you did not receive the email": "Si no has recibido el email",
         "click here to request another": "pulsa aquí para que te enviemos otro",
         "I am a": "Soy",
+        "Cancel": "Cancelar",
+        "Save": "Guardar",
+        "Add": "Agregar",
         "asantis": {
             "Carrier": "Transportista",
             "Company": "Compañia",

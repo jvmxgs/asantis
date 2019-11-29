@@ -1,0 +1,143 @@
+[33mcommit 0c275fb6a6a1a4008d9d6d59df161508495f8e17[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31mproduction/master[m[33m)[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sat Nov 9 12:22:20 2019 -0600
+
+    proposals added
+
+[33mcommit 5feffdc5f205c772d38820d7446282654478365b[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sat Nov 9 12:14:50 2019 -0600
+
+    proposals added
+
+[33mcommit 365785f16fb9b534f926a4e7270efc49b5a5cd3d[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Tue Oct 22 18:12:27 2019 -0500
+
+    localidades agregadas
+
+[33mcommit 23f04e8d3d8c1b1ab9c396a0d177945014815909[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Tue Sep 24 14:09:01 2019 -0500
+
+    errores al guardar viajes arreglados
+
+[33mcommit dfe78a6f60831ca834e1532a72b75a139ff93afc[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Mon Sep 23 19:16:44 2019 -0500
+
+    viajes modificados
+
+[33mcommit b06c9601278ef657ca2d5cd3ccb26ebb6d3f8c90[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Wed Aug 28 14:53:32 2019 -0500
+
+    modulo de busqueda basico
+
+[33mcommit f3a938f331a937927203580740de04a7eb1f0278[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Tue Aug 27 09:36:09 2019 -0500
+
+    sweetalert
+
+[33mcommit 08e686e44bd4641c9117622d2b124d3c098b47a6[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Mon Aug 26 13:06:13 2019 -0500
+
+    env
+
+[33mcommit 6d600f7c03b31a1bacf66c3c4609cef7f41483a9[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Mon Aug 26 13:05:17 2019 -0500
+
+    env
+
+[33mcommit f0c2c17a2b476ad9f3842c37ccfddd2e14f3ece0[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Mon Aug 26 12:50:52 2019 -0500
+
+    env
+
+[33mcommit 26502a4ef1657d9a5a95b904942571eb9c3617cd[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Mon Aug 26 12:45:20 2019 -0500
+
+    Vue implementado, modulo loads rehecho
+
+[33mcommit 35527007508fc3cd417881246a37525e4bc5a1d7[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Mon Aug 19 17:13:11 2019 -0500
+
+    jwt testing in production
+
+[33mcommit 0d460f9e735a58ad4a2a0c7eb63eae7e16618040[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sun Aug 18 18:24:45 2019 -0500
+
+    loads module, removing map
+
+[33mcommit 0b99a035e93e437bbe9093666c6a086e95324872[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Mon Aug 12 19:03:29 2019 -0500
+
+    Loads module created
+
+[33mcommit 839a9f0b3778f215051e06719232c1bba1866952[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sat Aug 3 11:52:02 2019 -0500
+
+    samai
+
+[33mcommit 73e0ee7ee980a63d0e1c7a6e006d8617a1981508[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sat Aug 3 11:48:13 2019 -0500
+
+    samai
+
+[33mcommit 52429a142038691b1626364153b208bd691283fc[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sat Aug 3 10:17:56 2019 -0500
+
+    appp.name fixed
+
+[33mcommit dc955adca232bd83629a69a55736cacb5bbd61d9[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sat Aug 3 10:15:59 2019 -0500
+
+    appp.name fixed
+
+[33mcommit 1c74fe79db14a5da46a4c397a740ef71424bfd65[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sat Aug 3 08:16:12 2019 -0500
+
+    testing deploy
+
+[33mcommit 46256b1e179cdbddc059be3ae9cefd846b88b5c6[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sat Aug 3 08:05:47 2019 -0500
+
+    testing deploy
+
+[33mcommit 2b91df8f05beca6bdb274b761b6c8a35b078e9ef[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sat Aug 3 08:03:37 2019 -0500
+
+    testing deploy
+
+[33mcommit 9fb20b1566ab727c41fce3bf7de06951f9287fa0[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sat Aug 3 07:41:59 2019 -0500
+
+    testing deploy
+
+[33mcommit 491f93f70a04567a6558767fa797a94bbcfecc67[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Sat Aug 3 07:31:39 2019 -0500
+
+    testing deploy
+
+[33mcommit 26017a7c2426e21a208800c1d6f3c5b22cc2fc81[m
+Author: Juan Victor <jvmxgs@gmail.com>
+Date:   Fri Aug 2 20:27:46 2019 -0500
+
+    commit inicial

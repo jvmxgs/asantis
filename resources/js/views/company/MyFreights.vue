@@ -98,8 +98,3 @@
         }
     }
 </script>
-<style scoped>
-    .progress-xs {
-        height: 4px;
-    }
-</style>

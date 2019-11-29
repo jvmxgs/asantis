@@ -41,8 +41,9 @@ Route::prefix('auth')->group(function () {
 });
 
 
-Route::group(['middleware' => 'auth:api'], function(){
-    // Users
+Route::get('representatives', 'UserController@representatives');
+
+Route::group(['middleware' => 'auth:api'], function() {
     Route::get('users', 'UserController@index')->middleware('isAdmin');
     Route::get('users/{id}', 'UserController@show')->middleware('isAdminOrSelf');
 });

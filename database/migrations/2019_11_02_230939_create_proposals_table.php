@@ -19,6 +19,7 @@ class CreateProposalsTable extends Migration
             $table->integer('carrier_id')->index('carrier_id')->comment('Relación: user -> id');
 
             $table->string('proposalText');
+            $table->unsignedInteger('amount');
 
             $table->timestamps();
         });

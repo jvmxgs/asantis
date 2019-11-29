@@ -12,7 +12,7 @@
                                 <form autocomplete="off" @submit.prevent="register" v-if="!success" method="post">
 
                                 <div class="alert alert-danger" v-if="has_error && !success">
-                                    <p">Erreur(s) de validation, veuillez consulter le(s) message(s) ci-dessous.</p>
+                                    <p>Erreur(s) de validation, veuillez consulter le(s) message(s) ci-dessous.</p>
                                 </div>
 
                                     <div class="form-group row justify-content-center">
@@ -81,7 +81,7 @@
                                         <div class="form-group row mb-0">
                                             <div class="col-md-6 offset-md-4">
                                                 <button type="submit" class="btn btn-primary">
-                                                    {{$t('Register me') }}
+                                                    {{ $t('Register me') }}
                                                 </button>
                                             </div>
                                         </div>

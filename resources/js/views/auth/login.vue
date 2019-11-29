@@ -14,7 +14,7 @@
                             </div>
                                 <form autocomplete="off" @submit.prevent="login" method="post">
                                     <div class="form-group row">
-                                        <label for="username" class="col-md-4 col-form-label text-md-right">{{ $t('E-Mail Address') }}</label>
+                                        <label for="username" class="col-md-4 col-form-label text-md-right">{{ $t('E-Mail Address or Username') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="username" v-model="username" type="username" class="form-control" name="username" value="" required autocomplete="email" autofocus>
@@ -62,7 +62,7 @@
       }
     },
     mounted() {
-      
+
     },
     methods: {
       login() {

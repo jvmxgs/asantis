@@ -48,7 +48,7 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function roles()
+    public function role()
     {
         return $this
             ->belongsTo('App\Role');
@@ -72,7 +72,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function hasRole($role)
     {
-        if ($this->roles()->where('name', $role)->first()) {
+        if ($this->role()->where('name', $role)->first()) {
             return true;
         }
         return false;

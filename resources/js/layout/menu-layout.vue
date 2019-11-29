@@ -6,6 +6,9 @@
             </div>
             <div class="card-body">
                 <ul class="nav flex-column nav-pills navbar-light bg-white">
+                    <li class="nav-item">
+                        <router-link :to="{name: 'dashboard'}" class="nav-link"><i class="fas fa-tachometer-alt"></i> Inicio</router-link>
+                    </li>
                     <li class="nav-item active">
                         <router-link :to="{name: 'search'}" class="nav-link"><i class="fas fa-search"></i> Buscar</router-link>
                     </li>
@@ -24,7 +27,7 @@
                 menuOwner: this.getOwner(),
                 menuItems : {
                     admin: [
-                        {title: 'Panel de control', icon: '', link: {name :'dashboard'}}
+                        {title: 'Representantes', icon: 'user-tie', link: {name :'representatives'}}
                     ],
                     company: [
                         {title: 'Mis viajes', icon: 'truck-loading', link: {name :'myfreights'}}

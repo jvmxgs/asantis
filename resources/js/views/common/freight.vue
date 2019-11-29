@@ -42,6 +42,18 @@
                 <hr />
                 <div v-if="$auth.check('carrier')">
                     <form v-on:submit.prevent="makeProposal" v-if="showProposalForm">
+                        <div class="form-group col-12 col-md-6 col-lg-4 p-0">
+                            <label for="amount">Monto propuesto</label>
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              <input type="number" class="form-control" v-model="amount" aria-label="Amount (to the nearest dollar)">
+                              <div class="input-group-append">
+                                <span class="input-group-text">.00</span>
+                              </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="proposalText">Deja tu propuesta</label>
                             <textarea class="form-control" v-model="proposalText"></textarea>
@@ -72,6 +84,7 @@
                 showProposalMessage: false,
                 freight: [],
                 proposal: [],
+                amount: "",
                 proposalText: ""
             }
         },
@@ -91,6 +104,7 @@
             makeProposal: function () {
                 const params = {
                     freight_id: this.freight.id,
+                    amount: this.amount,
                     proposalText: this.proposalText
                 };
 

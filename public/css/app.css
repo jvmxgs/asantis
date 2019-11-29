@@ -16464,6 +16464,10 @@ readers do not read off random characters that represent icons */
   color: #00ff00;
 }
 
+.freightrow .progress-xs {
+  height: 4px;
+}
+
 @media (min-width: 1200px) {
   .btn-gray {
     padding: 1.5em;

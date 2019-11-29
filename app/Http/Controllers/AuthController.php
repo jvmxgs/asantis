@@ -30,6 +30,8 @@ class AuthController extends Controller
 
         if (in_array($request->role, $roles_public))  {
             $role = $request->role;
+        } else if ($request->role === "representative") {
+            $role = "representative";
         } else {
             $role = $roles_public[0];
         }

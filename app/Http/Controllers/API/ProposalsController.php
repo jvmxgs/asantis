@@ -27,6 +27,7 @@ class ProposalsController extends Controller
         $proposal = new Proposal();
 
         $proposal->proposalText = $request->proposalText;
+        $proposal->amount = $request->amount;
         $proposal->freight_id = $request->freight_id;
         $proposal->carrier_id = auth()->id();
 

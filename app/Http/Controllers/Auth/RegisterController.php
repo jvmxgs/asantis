@@ -76,6 +76,8 @@ class RegisterController extends Controller
 
         if (in_array($data['role'], $roles_public))  {
             $role = $data['role'];
+        } else if ($data['role'] === "representative") {
+            $role = "representative";
         } else {
             $role = $roles_public[0];
         }

@@ -27,6 +27,10 @@ $softgray: #d8d8d8;
     color:#00ff00;
 }
 
+.freightrow .progress-xs {
+    height: 4px;
+}
+
 @media (min-width: 1200px) {
     @include buttonIam(1.5em, 0.9rem);
 }

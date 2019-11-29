@@ -8,7 +8,7 @@ export default [
         component: Dashboard,
         name: 'dashboard',
         meta: {
-          auth: {roles: ['admin', 'company', 'carrier'], redirect: {name: 'login'}, forbiddenRedirect: '/403'}
+          auth: {roles: ['admin', 'representative', 'company', 'carrier'], redirect: {name: 'login'}, forbiddenRedirect: '/403'}
         },
         children: [{
                 path: 'search',

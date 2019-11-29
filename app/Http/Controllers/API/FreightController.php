@@ -21,12 +21,14 @@ class FreightController extends Controller
 
     public function index()
     {
-        $freight = Freight::with('fromlocalidad.municipio.estado', 'tolocalidad.municipio.estado')
-                ->where('user_id', auth()->id())
-                ->orderBy('updated_at', 'DESC')
-                ->get();
+        $freight = Freight::with('fromlocalidad.municipio.estado', 'tolocalidad.municipio.estado');
 
-        return $freight;
+                if (!auth()->user()->hasRole('admin')) {
+                    $freight->where('user_id', auth()->id());
+                }
+
+        return $freight->orderBy('updated_at', 'DESC')
+                ->get();
     }
 
 
