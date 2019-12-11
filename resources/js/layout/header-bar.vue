@@ -27,7 +27,15 @@
                                     {{ $t('Register') }}
                                 </a>
                             </li>
+                            <!--
+                            <li class="nav-item dropdown" v-if="$auth.check()">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-bell"></i>
+                                    <span class="caret"></span>
+                                </a>
 
+                            </li>
+                            -->
                             <li class="nav-item dropdown" v-if="$auth.check()">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-user"></i>
@@ -37,9 +45,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                                    <a class="dropdown-item" v-if="$auth.check('admin')" href="/"> <i class="fas fa-sign-out-alt"></i> Admin</a>
-                                    <a class="dropdown-item" v-if="$auth.check('carrier')" href="/"> <i class="fas fa-sign-out-alt"></i> Carrier</a>
-                                    <a class="dropdown-item" v-if="$auth.check('company')" href="/"> <i class="fas fa-sign-out-alt"></i> Company</a>
+                                    <router-link :to="{name: 'userinfo'}" class="dropdown-item"><i class="fas fa-cog"></i> {{ $t('Account') }}</router-link>
 
                                     <a class="dropdown-item" href="/logout"
                                        @click.prevent="$auth.logout()">

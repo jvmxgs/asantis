@@ -63,7 +63,7 @@
                     <div class="panel-body">
                         <table class="table table-striped table-hover">
                             <tbody>
-                                <template v-for="(freight, index) in freights">
+                                <template v-for="(freight, index) in freights.data">
                                     <tr class="freightrow">
                                         <th class="hidden-xs" scope="row">{{ index + 1 }}</th>
                                         <td>
@@ -72,27 +72,18 @@
                                         </td>
                                         <td>
                                             <div class="clearfix">
-                                                <div class="float-left">
-                                                    <strong>{{ freight.fromlocalidad.municipio.estado.nombre }}</strong>
-                                                    <span class="d-block">{{ freight.fromlocalidad.municipio.nombre }}</span>
-                                                    <span class="d-block">{{ freight.fromlocalidad.nombre }}</span>
+                                                <div>
+                                                    <i class="fas fa-truck"></i>
+                                                    <small>{{ freight.fromlocalidad.municipio.estado.nombre }}</small> |
+                                                    <small>{{ freight.fromlocalidad.municipio.nombre }}</small>
                                                     <small class="text-muted">{{ freight.departuretime }}</small>
                                                 </div>
-                                                <div class="float-right text-right">
-                                                    <strong>{{ freight.tolocalidad.municipio.estado.nombre }}</strong>
-                                                    <span class="d-block">{{ freight.tolocalidad.municipio.nombre }}</span>
-                                                    <span class="d-block">{{ freight.tolocalidad.nombre }}</span>
+                                                <div>
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <small>{{ freight.tolocalidad.municipio.estado.nombre }}</small> |
+                                                    <small>{{ freight.tolocalidad.municipio.nombre }}</small>
                                                     <small class="text-muted">{{ freight.arrivaltime }}</small>
                                                 </div>
-                                            </div>
-                                            <div class="progress progress-xs">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <div class="float-left">
-                                                <i class="fas fa-truck"></i>
-                                            </div>
-                                            <div class="float-right">
-                                                <i class="fas fa-map-marker-alt"></i>
                                             </div>
                                         </td>
                                     </tr>
@@ -109,7 +100,7 @@
     export default {
         data () {
             return {
-                freights: []
+                freights: {}
             }
         },
         mounted () {

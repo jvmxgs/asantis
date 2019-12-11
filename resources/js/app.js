@@ -16,12 +16,20 @@ import VueInternationalization from 'vue-i18n';
 import Locales from '../assets/js/vue-i18n-locales.generated.js';
 import Router from './routes/router.js';
 
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 const lang = document.documentElement.lang.substr(0, 2);
 
 const i18n = new VueInternationalization({
     locale: lang,
     messages: Locales
 });
+
+
+import 'sweetalert2/dist/sweetalert2.min.css';
+import '@fortawesome/fontawesome-free/js/all.js';
+
+
 
 Vue.use(VueSweetalert2)
 Vue.router = Router

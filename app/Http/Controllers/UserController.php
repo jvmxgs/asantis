@@ -26,11 +26,4 @@ class UserController extends Controller
                 'user' => $user->toArray()
             ], 200);
     }
-
-    public function representatives()
-    {
-        return $representatives = User::whereHas('role', function ($query) {
-            $query->where('name', 'representative');
-        })->get();
-    }
 }

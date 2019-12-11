@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form v-on:submit.prevent="search">
+        <form v-on:submit.prevent="doSearch">
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <input class="form-control" placeholder="Palabras clave" type="text" v-model="keywords" />
@@ -81,13 +81,24 @@
         </form>
         <div class="row">
             <div class="col-md-12">
-                <search-result :freights="freights">
+                <search-result :freights="freights.data">
                 </search-result>
-                <div class="alert alert-warning col-md-12" role="alert" v-if="!freights.length && searchdone">
+                <div class="alert alert-warning col-md-12" role="alert" v-if="!freights.data && searchdone">
                     <i class="fas fa-exclamation-triangle fa-lg"></i> No se encontraron registros, con los parametro de busqueda
                 </div>
                 <div class="alert alert-info col-md-12" role="alert" v-if="!searchdone">
                     <i class="fas fa-exclamation-triangle fa-lg"></i> Configure las opciones de busqueda y presione el boton buscar.
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row" v-if="freights.data && searchdone">
+                <div class="col col-xs-4">Pagina {{ freights.current_page }} de {{ freights.last_page }}</div>
+                <div class="col col-xs-8">
+                    <pagination :data="freights" @pagination-change-page="search" class="justify-content-end">
+                        <span slot="prev-nav">&lt; Anterior</span>
+                        <span slot="next-nav">Siguiente &gt;</span>
+                    </pagination>
                 </div>
             </div>
         </div>
@@ -124,7 +135,7 @@
                     range: [20, 50],
                     rangeData: []
                 },
-                freights: []
+                freights: {}
             }
         },
         mounted() {
@@ -142,7 +153,10 @@
             })
         },
         methods: {
-            search : function () {
+            doSearch: function () {
+                this.search();
+            },
+            search (page = 1) {
                 var params = {
                     fromestado_id : this.fromestado_id,
                     toestado_id : this.toestado_id,
@@ -154,7 +168,7 @@
                     rangeweight: this.weightslider.range
                 }
 
-                axios.post('/search', params)
+                axios.post('/search?page=' + page, params)
                 .then((response) => {
                     this.freights = response.data
                     this.searchdone = true

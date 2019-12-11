@@ -52,7 +52,7 @@ class SearchController extends Controller
 
         $freight->orderBy('updated_at', 'DESC');
 
-        return $freight->get();
+        return response()->json($freight->paginate(5));
     }
 
     public function rangeWeight()

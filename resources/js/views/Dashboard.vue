@@ -7,7 +7,7 @@
                     <menu-layout-component></menu-layout-component>
                     <div class="col-md-9">
                         <div class="card">
-                            <div class="card-header"><i class="fas fa-tachometer-alt"></i> Panel de control</div>
+                            <div class="card-header"><i class="fas fa-tachometer-alt"></i>Panel de control</div>
 
                             <div class="card-body">
                                     <router-view name="content"/>

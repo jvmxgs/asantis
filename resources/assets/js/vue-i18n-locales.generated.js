@@ -163,6 +163,7 @@ export default {
         "Cancel": "Cancelar",
         "Save": "Guardar",
         "Add": "Agregar",
+        "Account": "Cuenta",
         "asantis": {
             "Carrier": "Transportista",
             "Company": "Compañia",

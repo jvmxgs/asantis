@@ -3,13 +3,6 @@ import Representatives from './../views/admin/representatives'
 import AddRepresentative from './../views/admin/addrepresentative'
 
 export default [{
-                    path: '/',
-                    name: 'dashboard',
-                    components: {
-                        content: Dashboard
-                    }
-            },
-            {
                 path: 'representatives',
                 name: 'representatives',
                 components: {

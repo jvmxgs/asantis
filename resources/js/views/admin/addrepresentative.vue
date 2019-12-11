@@ -73,34 +73,34 @@ export default {
     },
     methods: {
       register() {
-        var app = this
-        this.$auth.register({
-          data: {
-            name: app.name,
-            username: app.username,
-            email: app.email,
-            password: app.password,
-            password_confirmation: app.password_confirmation,
-            role: app.role,
 
-            has_error: false,
-            errors: []
-          },
-          success: function (response) {
-            app.success = true
-            this.$swal.fire({
-                title: 'Grandioso',
-                text: 'Se ha guardado agregado el correctamente un nuevo representante',
-                type: 'success',
-                confirmButtonText: 'Genial'
-            })
-            this.$router.push({name: 'representatives'})
-          },
-          error: function (res) {
-            app.has_error = true
-            app.errors = res.response.data.errors || {}
+          const params = {
+              role: this.role,
+              name: this.name,
+              username: this.username,
+              email: this.email,
+              password: this.password,
+              password_confirmation: this.password_confirmation
           }
-        })
+
+          axios.post('/representatives/register', params)
+          .then((response) => {
+              //reset all inputs
+              Object.assign(this.$data, this.$options.data.call(this));
+              this.$swal.fire({
+                  title: 'Grandioso',
+                  text: 'Se ha agregado correctamente otro representante',
+                  type: 'success',
+                  confirmButtonText: 'Genial'
+              })
+              this.$router.push({name: 'representatives'})
+          })
+          .catch((error) => {
+              this.has_error = true
+              this.errors = error.response.data.errors
+          });
+
+
       }
     }
 }

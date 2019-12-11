@@ -11,7 +11,7 @@ import commonRoutes from './common'
 var routes = [...publicRoutes, ...commonRoutes];
 
 routes.forEach((route, index) => {
-    if(route.name === 'dashboard') {
+    if(route.path === '/dashboard') {
         routes[index]['children'] = route['children'].concat(companyRoutes)
                                                     .concat(carrierRoutes)
                                                     .concat(adminRoutes)

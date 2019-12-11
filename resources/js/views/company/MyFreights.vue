@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-for="(freight, index) in freights">
+                    <template v-for="(freight, index) in freights.data">
                         <tr class="freightrow">
                             <th class="hidden-xs" scope="row">{{ index + 1 }}</th>
                             <td>
@@ -64,20 +64,14 @@
         </div>
         <div class="panel-footer">
             <div class="row">
-                <div class="col col-xs-4">Pagina 1 de 5</div>
+                <div class="col col-xs-4">Pagina {{ freights.current_page }} de {{ freights.last_page }}</div>
                 <div class="col col-xs-8">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-end">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
+                    <pagination :data="freights" @pagination-change-page="getMyFreights" class="justify-content-end">
+                        <span slot="prev-nav">&lt; Anterior</span>
+	                    <span slot="next-nav">Siguiente &gt;</span>
+                    </pagination>
                 </div>
+
             </div>
         </div>
     </div>
@@ -88,13 +82,18 @@
         },
         data() {
             return {
-                freights: []
+                freights: {}
             }
         },
         mounted () {
-            axios.get('/freights').then((response) =>{
-                this.freights = response.data;
-            });
+            this.getMyFreights();
+        },
+        methods: {
+            getMyFreights(page = 1) {
+                axios.get('/freights?page=' + page).then((response) =>{
+                    this.freights = response.data;
+                });
+            }
         }
     }
 </script>

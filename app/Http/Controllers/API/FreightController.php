@@ -16,7 +16,7 @@ class FreightController extends Controller
 
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
     }
 
     public function index()
@@ -27,8 +27,9 @@ class FreightController extends Controller
                     $freight->where('user_id', auth()->id());
                 }
 
-        return $freight->orderBy('updated_at', 'DESC')
-                ->get();
+        $freight = $freight->orderBy('updated_at', 'DESC')
+                ->paginate(5);
+    	return response()->json($freight);
     }
 
 

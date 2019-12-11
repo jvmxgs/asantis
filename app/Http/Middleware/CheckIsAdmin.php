@@ -9,9 +9,9 @@ class CheckIsAdmin
 {
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->hasRole('admin')) {
+        if(Auth::check() && Auth::user()->hasRole('admin')) {
             return $next($request);
-        }        else {
+        } else {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
     }
