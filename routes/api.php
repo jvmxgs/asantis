@@ -17,6 +17,9 @@ Route::resource('localidades', 'API\LocalidadesController')->only([
     'index', 'show'
 ]);
 
+Route::get('proposals/unattended', 'API\ProposalsController@unattended');
+Route::post('proposals/response', 'API\ProposalsController@storeResponse');
+
 Route::resource('proposals', 'API\ProposalsController')->only([
     'index', 'store', 'show'
 ]);
@@ -43,7 +46,9 @@ Route::prefix('auth')->group(function () {
 
 Route::get('representatives', 'API\RepresentativesController@index')->middleware('isAdmin');
 Route::post('representatives/register', 'API\RepresentativesController@register')->middleware('isAdmin');
-Route::post('representatives/destroy/{id}', 'API\RepresentativesController@destroy')->middleware('isAdmin');
+Route::delete('representatives/{id}', 'API\RepresentativesController@destroy')->middleware('isAdmin');
+Route::get('representatives/{id}', 'API\RepresentativesController@show')->middleware('isAdmin');
+Route::put('representatives/{id}', 'API\RepresentativesController@update')->middleware('isAdmin');
 
 
 Route::group(['middleware' => 'auth:api'], function() {

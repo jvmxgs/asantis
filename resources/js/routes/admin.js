@@ -1,6 +1,6 @@
 import Dashboard from './../views/admin/dashboard'
 import Representatives from './../views/admin/representatives'
-import AddRepresentative from './../views/admin/addrepresentative'
+import FormRepresentative from './../views/admin/FormRepresentative'
 
 export default [{
                 path: 'representatives',
@@ -16,7 +16,17 @@ export default [{
                 path: 'addrepresentative',
                 name: 'addrepresentative',
                 components: {
-                    content: AddRepresentative
+                    content: FormRepresentative
+                },
+                meta: {
+                    auth: {roles: 'admin', redirect: {name:'login'}, forbiddenRedirect: '/403'}
+                }
+            },
+            {
+                path: 'updaterepresentative/:representative_id',
+                name: 'updaterepresentative',
+                components: {
+                    content: FormRepresentative
                 },
                 meta: {
                     auth: {roles: 'admin', redirect: {name:'login'}, forbiddenRedirect: '/403'}

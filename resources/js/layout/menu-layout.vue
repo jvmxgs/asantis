@@ -29,6 +29,9 @@
                     admin: [
                         {title: 'Representantes', icon: 'user-tie', link: {name :'representatives'}}
                     ],
+                    representative: [
+                        {title: 'Propuestas', icon: 'comment-dots', link: {name :'proposals'}}
+                    ],
                     company: [
                         {title: 'Mis viajes', icon: 'truck-loading', link: {name :'myfreights'}}
                     ],
@@ -45,6 +48,8 @@
             getOwner () {
                 if (this.$auth.check('admin')) {
                     return 'admin'
+                } else if (this.$auth.check('representative')) {
+                    return 'representative'
                 } else if (this.$auth.check('company')) {
                     return 'company';
                 } else if (this.$auth.check('carrier')) {

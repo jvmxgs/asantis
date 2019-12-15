@@ -83,7 +83,7 @@
             <div class="col-md-12">
                 <search-result :freights="freights.data">
                 </search-result>
-                <div class="alert alert-warning col-md-12" role="alert" v-if="!freights.data && searchdone">
+                <div class="alert alert-warning col-md-12" role="alert" v-if="!freights.total && searchdone">
                     <i class="fas fa-exclamation-triangle fa-lg"></i> No se encontraron registros, con los parametro de busqueda
                 </div>
                 <div class="alert alert-info col-md-12" role="alert" v-if="!searchdone">
@@ -92,7 +92,7 @@
             </div>
         </div>
         <div class="panel-footer">
-            <div class="row" v-if="freights.data && searchdone">
+            <div class="row" v-if="freights.total && searchdone">
                 <div class="col col-xs-4">Pagina {{ freights.current_page }} de {{ freights.last_page }}</div>
                 <div class="col col-xs-8">
                     <pagination :data="freights" @pagination-change-page="search" class="justify-content-end">
@@ -157,6 +157,7 @@
                 this.search();
             },
             search (page = 1) {
+                this.searchdone = false
                 var params = {
                     fromestado_id : this.fromestado_id,
                     toestado_id : this.toestado_id,
@@ -179,28 +180,42 @@
             changeFromEstado : function (e) {
                 this.frommunicipio_id = '';
                 this.fromlocalidad_id = '';
-                axios.get('/estados/' + e + '/municipios').then((response) =>{
-                    this.municipiosFrom = response.data;
-                });
+                this.municipiosFrom = [];
+                this.localidadesFrom = [];
+                if (e != "") {
+                    axios.get('/estados/' + e + '/municipios').then((response) =>{
+                        this.municipiosFrom = response.data;
+                    });
+                }
             },
             changeToEstado : function (e) {
                 this.tomunicipio_id = '';
                 this.tolocalidad_id = '';
-                axios.get('/estados/' + e + '/municipios').then((response) =>{
-                    this.municipiosTo = response.data;
-                });
+                this.municipiosTo = [];
+                this.localidadesTo = [];
+                if (e != "") {
+                    axios.get('/estados/' + e + '/municipios').then((response) =>{
+                        this.municipiosTo = response.data;
+                    });
+                }
             },
             changeFromMunicipio : function (e) {
                 this.fromlocalidad_id = '';
-                axios.get('/municipios/' + e + '/localidades').then((response) =>{
-                    this.localidadesFrom = response.data;
-                });
+                this.localidadesFrom = [];
+                if (e != "") {
+                    axios.get('/municipios/' + e + '/localidades').then((response) =>{
+                        this.localidadesFrom = response.data;
+                    });
+                }
             },
             changeToMunicipio : function (e) {
                 this.tolocalidad_id = '';
-                axios.get('/municipios/' + e + '/localidades').then((response) =>{
-                    this.localidadesTo = response.data;
-                });
+                this.localidadesTo = [];
+                if (e != "") {
+                    axios.get('/municipios/' + e + '/localidades').then((response) =>{
+                        this.localidadesTo = response.data;
+                    });
+                }
             },
             getRange: function (upper, lower) {
                 const difference = upper - lower

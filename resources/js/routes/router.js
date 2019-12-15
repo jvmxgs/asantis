@@ -4,6 +4,7 @@ Vue.use(VueRouter)
 
 import publicRoutes from './public'
 import adminRoutes from './admin'
+import representativeRoutes from './representative'
 import companyRoutes from './company'
 import carrierRoutes from './carrier'
 import commonRoutes from './common'
@@ -15,6 +16,7 @@ routes.forEach((route, index) => {
         routes[index]['children'] = route['children'].concat(companyRoutes)
                                                     .concat(carrierRoutes)
                                                     .concat(adminRoutes)
+                                                    .concat(representativeRoutes)
     }
 });
 

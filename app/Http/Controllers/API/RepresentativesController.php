@@ -19,6 +19,41 @@ class RepresentativesController extends Controller
         })->orderBy('updated_at', 'DESC')->get();
     }
 
+    public function show($id)
+    {
+        $representative = User::find($id);
+        return $representative;
+    }
+
+    public function update(Request $request, $id)
+    {
+        $v = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed']
+        ]);
+
+        if ($v->fails())
+        {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $v->errors()
+            ], 422);
+        }
+
+        $freight = User::find($id);
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return response()->json(['status' => 'success'], 200);
+    }
+
     public function register(Request $request)
     {
         $v = Validator::make($request->all(), [
