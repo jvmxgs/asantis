@@ -78,9 +78,17 @@
                     <div class="card-header d-flex justify-content-between">
                         <h5>Has propuesto</h5><h4><span class="badge badge-secondary">$ {{ proposals[0].amount }}</span></h4>
                     </div>
-                    <div class="card-body">
-                        <p class="card-text">{{ proposals[0].proposalText }}</p>
-                    </div>
+                        <div class="alert alert-success" role="alert">
+                          <h4 class="alert-heading"></h4>
+                          <hr>
+                          <p class="mb-0">{{ proposals[0].proposalText }}</p>
+                        </div>
+
+                        <div v-for="proposal_response in proposals[0].proposal_responses" class="alert alert-info" role="alert">
+                          <h4 class="alert-heading">Representative</h4>
+                          <hr>
+                          <p class="mb-0">{{ proposal_response.responseText }}</p>
+                        </div>
                     <div class="card-footer">
                         <a href="#" class="btn btn-primary">Editar</a>
                     </div>
