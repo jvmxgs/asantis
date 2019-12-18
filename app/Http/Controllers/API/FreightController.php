@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+
 
 use App\Freight;
 use App\Estado;
@@ -35,6 +37,46 @@ class FreightController extends Controller
 
     public function store(Request $request)
     {
+
+        $attributes = [
+            'weight' => 'peso',
+            'weightunit' => 'unidad de peso',
+            'trucktype' => 'tipo de unidad',
+            'fromlocalidad_id' => 'origen',
+            'fromaddress' => 'dirección de origen',
+            'departuretime' => 'fecha de salida',
+            'tolocalidad_id' => 'destino',
+            'toaddress' => 'dirección de destino',
+            'arrivaltime' => 'fecha de llegada',
+            'amount' => 'presupuesto disponible'
+        ];
+
+        $v = Validator::make($request->all(), [
+            'weight' => ['required', 'numeric'],
+            'weightunit' => ['required', 'in:kg,lb'],
+            'trucktype' => ['required', 'in:panel,rabon,caja53,termorefrigerado'],
+
+            'fromlocalidad_id' => ['required', 'numeric'],
+            'fromaddress' => ['required', 'string'],
+            'departuretime' => ['required', 'date_format:Y/m/d H:i'],
+
+            'tolocalidad_id' => ['required', 'numeric'],
+            'toaddress' => ['required', 'string'],
+            'arrivaltime' => ['required', 'date_format:Y/m/d H:i', 'before:departuretime'],
+
+            'amount' => ['required', 'numeric']
+        ]);
+
+        $v->setAttributeNames($attributes);
+
+        if ($v->fails())
+        {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $v->errors()
+            ], 422);
+        }
+
         $freight = new Freight();
         $freight->freightnumber = $this->generateFreightNumber();
         $freight->description = $request->description;
@@ -58,10 +100,15 @@ class FreightController extends Controller
         } else {
             $freight->tolocalidad_id = $request->tolocalidad_id;
         }
+
         $freight->toaddress = $request->toaddress;
         $freight->arrivaltime = $request->arrivaltime;
 
         $freight->weight = $request->weight;
+        $freight->weightunit = $request->weightunit;
+        $freight->trucktype = $request->trucktype;
+        $freight->amount = $request->amount;
+
         $freight->user_id = auth()->id();
         $freight->save();
         return $freight;
@@ -78,20 +125,83 @@ class FreightController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $freightnumber)
     {
-        $freight = Freight::find($id);
-        $freight->freightnumber = $request->freightnumber;
+        $freight = Freight::where('freightnumber', $freightnumber)->firstOrFail();
+
+        $attributes = [
+            'weight' => 'peso',
+            'weightunit' => 'unidad de peso',
+            'trucktype' => 'tipo de unidad',
+            'fromlocalidad_id' => 'origen',
+            'fromaddress' => 'dirección de origen',
+            'departuretime' => 'fecha de salida',
+            'tolocalidad_id' => 'destino',
+            'toaddress' => 'dirección de destino',
+            'arrivaltime' => 'fecha de llegada',
+            'amount' => 'presupuesto disponible'
+        ];
+
+        $v = Validator::make($request->all(), [
+            'weight' => ['required', 'numeric'],
+            'weightunit' => ['required', 'in:kg,lb'],
+            'trucktype' => ['required', 'in:panel,rabon,caja53,termorefrigerado'],
+
+            'fromlocalidad_id' => ['required', 'numeric'],
+            'fromaddress' => ['required', 'string'],
+            'departuretime' => ['required', 'date_format:Y/m/d H:i'],
+
+            'tolocalidad_id' => ['required', 'numeric'],
+            'toaddress' => ['required', 'string'],
+            'arrivaltime' => ['required', 'date_format:Y/m/d H:i', 'before:departuretime'],
+
+            'amount' => ['required', 'numeric']
+        ]);
+
+        $v->setAttributeNames($attributes);
+
+        if ($v->fails())
+        {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $v->errors()
+            ], 422);
+        }
+
+
         $freight->description = $request->description;
-        $freight->pickupfrom = $request->pickupfrom;
-        $freight->pickupfrom_latitude = $request->pickupfrom_latitude;
-        $freight->pickupfrom_longitude = $request->pickupfrom_longitude;
-        $freight->deliverto = $request->deliverto;
-        $freight->deliverto_latitude = $request->deliverto_latitude;
-        $freight->deliverto_longitude = $request->deliverto_longitude;
+
+        if ($request->fromlocalidad_id === "0") {
+            $freight->fromlocalidad_id = Localidade::where('municipio_id', $request->origenmunicipioid)
+                    ->where('clave', '0001')
+                    ->first()->id;
+        } else {
+            $freight->fromlocalidad_id = $request->fromlocalidad_id;
+        }
+
+        $freight->fromaddress = $request->fromaddress;
+        $freight->departuretime = $request->departuretime;
+
+        if ($request->tolocalidad_id === "0") {
+            $freight->tolocalidad_id = Localidade::where('municipio_id', $request->destinomunicipioid)
+                    ->where('clave', '0001')
+                    ->first()
+                    ->id;
+        } else {
+            $freight->tolocalidad_id = $request->tolocalidad_id;
+        }
+
+        $freight->toaddress = $request->toaddress;
+        $freight->arrivaltime = $request->arrivaltime;
+
         $freight->weight = $request->weight;
+        $freight->weightunit = $request->weightunit;
+        $freight->trucktype = $request->trucktype;
+        $freight->amount = $request->amount;
+
         $freight->user_id = auth()->id();
         $freight->save();
+        return $freight;
     }
 
 

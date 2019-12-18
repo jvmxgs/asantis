@@ -24,6 +24,8 @@ class FreightsTableSeeder extends Seeder
         $freight->arrivaltime = '2019-11-11 12:00:00';
         $freight->weight = '20000';
         $freight->weightunit = 'kg';
+        $freight->trucktype = 'rabon';
+        $freight->amount = '10000';
         $freight->user_id = '2';
         $freight->save();
 
@@ -38,6 +40,8 @@ class FreightsTableSeeder extends Seeder
         $freight->arrivaltime = '2019-11-11 10:41:00';
         $freight->weight = '40000';
         $freight->weightunit = 'kg';
+        $freight->trucktype = 'panel';
+        $freight->amount = '12000';
         $freight->user_id = '2';
         $freight->save();
 
@@ -52,6 +56,8 @@ class FreightsTableSeeder extends Seeder
         $freight->arrivaltime = '2019-11-11 10:41:00';
         $freight->weight = '35000';
         $freight->weightunit = 'kg';
+        $freight->trucktype = 'rabon';
+        $freight->amount = '10000';
         $freight->user_id = '2';
         $freight->save();
 
@@ -66,6 +72,8 @@ class FreightsTableSeeder extends Seeder
         $freight->arrivaltime = '2019-11-11 10:41:00';
         $freight->weight = '35000';
         $freight->weightunit = 'kg';
+        $freight->trucktype = 'panel';
+        $freight->amount = '15000';
         $freight->user_id = '2';
         $freight->save();
     }

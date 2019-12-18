@@ -1,4 +1,4 @@
-import NewFreight from './../views/company/NewFreight'
+import FormFreight from './../views/company/FormFreight'
 import MyFreights from './../views/company/MyFreights'
 
 export default [{
@@ -15,7 +15,17 @@ export default [{
                 path: 'newfreight',
                 name: 'newfreight',
                 components: {
-                    content: NewFreight
+                    content: FormFreight
+                },
+                meta: {
+                    auth: {roles: 'company', redirect: {name:'login'}, forbiddenRedirect: '/403'}
+                }
+            },
+            {
+                path: 'updatefreight/:freight_number',
+                name: 'updatefreight',
+                components: {
+                    content: FormFreight
                 },
                 meta: {
                     auth: {roles: 'company', redirect: {name:'login'}, forbiddenRedirect: '/403'}

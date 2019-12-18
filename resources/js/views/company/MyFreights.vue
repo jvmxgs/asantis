@@ -27,6 +27,8 @@
                             <td>
                               <router-link :to="{name: 'freights', params: {freightnumber: freight.freightnumber}}"> {{ freight.freightnumber }} </router-link>
                               <em class="d-block"><i class="fas fa-weight"></i> {{ freight.weight }} {{ freight.weightunit}}</em>
+                              <em class="d-block"><i class="fas fa-truck"></i> {{ freight.trucktype }}</em>
+                              <em class="d-block text-success"><i class="fas fa-dollar-sign"></i> {{ freight.amount }}</em>
                             </td>
                             <td>
                                 <div class="clearfix">
@@ -54,8 +56,8 @@
                                 </div>
                             </td>
                             <td align="center">
-                                <a class="btn btn-success"><em class="fa fa-pencil-alt"></em></a>
-                                <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                                <router-link :to="{name: 'updatefreight', params: {freight_number: freight.freightnumber }}" class="btn btn-success"><em class="fa fa-pencil-alt text-dark"></em></router-link>
+                                <a class="btn btn-danger" v-on:click="deleteFreight(freight.id)"><em class="fa fa-trash"></em></a>
                             </td>
                         </tr>
                     </template>
@@ -89,6 +91,31 @@
             this.getMyFreights();
         },
         methods: {
+            deleteFreight(freight_id) {
+                this.$swal.fire({
+                    title: '¿Estas seguro?',
+                    text: "¡No podras deshacer esto!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '¡Si, borralo!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                  if (result.value) {
+                      axios.delete('/freights/' + freight_id)
+                      .then((response) => {
+
+                          this.$swal.fire(
+                            'Borrado!',
+                            'El representante ha sido borrado',
+                            'success'
+                          )
+                          this.getMyFreights()
+                      });
+                  }
+                })
+            },
             getMyFreights(page = 1) {
                 axios.get('/freights?page=' + page).then((response) =>{
                     this.freights = response.data;

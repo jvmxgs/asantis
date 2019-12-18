@@ -30,6 +30,8 @@ class CreateFreightsTable extends Migration
 
             $table->unsignedInteger('weight');
             $table->enum('weightunit', ['kg', 'lb']);
+            $table->enum('trucktype', ['panel', 'rabon', 'caja53', 'termorefrigerado']);
+            $table->unsignedInteger('amount');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
