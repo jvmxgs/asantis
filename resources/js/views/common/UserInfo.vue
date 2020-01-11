@@ -20,7 +20,6 @@
                         </div>
                     </div>
                 </div>
-https://gaknx.whoresnearby.net/c/da57dc555e50572d?s1=53398&s2=1000221&j1=1&j3=1&click_id=SaRV1yTrFZU8wtMX9ekZ9Z
                 <div class="form-group row">
                     <label for="email" class="col-md-4 col-form-label text-md-right">{{ $t('E-Mail Address') }}</label>
                     <div class="col-md-8">
