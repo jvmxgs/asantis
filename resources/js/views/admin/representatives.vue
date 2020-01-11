@@ -28,13 +28,13 @@
                             <tr class="freightrow">
                                 <th class="hidden-xs" scope="row">{{ index + 1 }}</th>
                                 <td>
-                                  <em class="d-block"><i class="fas fa-user-tie"></i> {{ representative.username }}</em>
+                                  <em class="d-block"><i class="fas fa-user-tie"></i> {{ representative.name }}</em>
                                 </td>
                                 <td>
                                     <em class="d-block"> {{ representative.email }}</em>
                                 </td>
                                 <td>
-                                    <router-link :to="{name: 'representatives', params: {freightnumber: representative.username }}"> {{ representative.name }} </router-link>
+                                    <router-link :to="{name: 'representatives', params: {freightnumber: representative.username }}"> {{ representative.username }} </router-link>
                                 </td>
                                 <td align="center">
                                     <router-link :to="{name: 'updaterepresentative', params: {representative_id: representative.id }}" class="btn btn-success"><em class="fa fa-pencil-alt text-dark"></em></router-link>

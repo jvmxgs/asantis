@@ -162,8 +162,12 @@ export default {
         "I am a": "Soy",
         "Cancel": "Cancelar",
         "Save": "Guardar",
+        "Saving": "Guardando",
         "Add": "Agregar",
+        "Update": "Actualizar",
+        "Updating": "Actualizando",
         "Account": "Cuenta",
+        "Change password": "Cambiar contraseña",
         "asantis": {
             "Carrier": "Transportista",
             "Company": "Compañia",

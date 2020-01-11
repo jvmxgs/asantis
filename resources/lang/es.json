@@ -33,6 +33,10 @@
     "I am a" : "Soy",
     "Cancel" : "Cancelar",
     "Save": "Guardar",
+    "Saving": "Guardando",
     "Add": "Agregar",
-    "Account": "Cuenta"
+    "Update": "Actualizar",
+    "Updating": "Actualizando",
+    "Account": "Cuenta",
+    "Change password": "Cambiar contraseña"
 }

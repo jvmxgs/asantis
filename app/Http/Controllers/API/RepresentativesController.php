@@ -29,8 +29,31 @@ class RepresentativesController extends Controller
     {
         $v = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username' => ['required', 'string', 'max:255', 'unique:users,username,' . $id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $id]
+        ]);
+
+        if ($v->fails())
+        {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $v->errors()
+            ], 422);
+        }
+
+
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->save();
+
+        return response()->json(['status' => 'success'], 200);
+    }
+
+    public function updatepassword(Request $request, $id)
+    {
+        $v = Validator::make($request->all(), [
             'password' => ['required', 'string', 'min:8', 'confirmed']
         ]);
 
@@ -42,12 +65,8 @@ class RepresentativesController extends Controller
             ], 422);
         }
 
-        $freight = User::find($id);
 
-        $user = new User;
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->email = $request->email;
+        $user = User::find($id);
         $user->password = bcrypt($request->password);
         $user->save();
 

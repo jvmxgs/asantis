@@ -6,7 +6,7 @@ const config = {
   auth: bearer,
   http: axios,
   router: router,
-  tokenDefaultName: 'csrf-token123456',
+  tokenDefaultName: 'csrf-token',
   tokenStore: ['localStorage'],
   rolesVar: 'role',
   registerData: {url: 'auth/register', method: 'POST', redirect: '/login'},

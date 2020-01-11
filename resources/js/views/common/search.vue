@@ -81,8 +81,16 @@
         </form>
         <div class="row">
             <div class="col-md-12">
-                <search-result :freights="freights.data">
-                </search-result>
+                <table class="table table-striped table-hover">
+                    <tbody>
+                        <FreightRow
+                            v-for="(freight, index) in freights.data"
+                            :freight="freight"
+                            :index="index"
+                            :key="freight.id">
+                        </FreightRow>
+                    </tbody>
+                </table>
                 <div class="alert alert-warning col-md-12" role="alert" v-if="!freights.total && searchdone">
                     <i class="fas fa-exclamation-triangle fa-lg"></i> No se encontraron registros, con los parametro de busqueda
                 </div>
@@ -105,14 +113,14 @@
     </div>
 </template>
 <script>
-    import SearchResult from './SearchResult';
+    import FreightRow from '../ui/FreightRow';
     import VueSlider from 'vue-slider-component'
     import '../../../../node_modules/vue-slider-component/theme/antd.css'
 
     export default {
         components: {
             VueSlider,
-            SearchResult
+            FreightRow
         },
         data() {
             return {

@@ -228,4 +228,9 @@ class FreightController extends Controller
         return $freightNumber;
     }
 
+    private function lbToKg($val)
+    {
+        return $val * 0.453592;
+    }
+
 }

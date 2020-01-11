@@ -149,7 +149,13 @@
         <div class="row">
             <div class="col-md-12">
                 <hr/>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+
+                <button type="submit" class="btn btn-primary">
+                    <div v-if="isSaving" class="spinner-border spinner-border-sm" role="status">
+                      <span class="sr-only">Guardando...</span>
+                    </div>
+                    <span v-else><i class="fas fa-save"></i> Guardar</span>
+                </button>
                 <router-link class="btn btn-secondary btn-create" :to="{name: 'myfreights'}"><i class="fas fa-ban"></i> Cancelar</router-link>
             </div>
         </div>

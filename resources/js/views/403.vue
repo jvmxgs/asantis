@@ -9,6 +9,7 @@
                             <div class="card-header"><i class="fas fa-user"></i> {{ $t('Error') }}</div>
                                 <div class="card-body">
                                     <h1>403 error</h1>
+                                    <h3>Zona restringida</h3>
                                 </div>
                         </div>
                     </div>
@@ -23,6 +24,9 @@
     export default {
         components: {
             HeaderBarComponent
+        },
+        beforeCreate() {
+            console.log('Nothing gets called before me!')
         }
     }
 </script>
