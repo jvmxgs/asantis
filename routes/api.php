@@ -57,4 +57,6 @@ Route::put('representatives/{id}/updatepassword', 'API\RepresentativesController
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('users', 'UserController@index')->middleware('isAdmin');
     Route::get('users/{id}', 'UserController@show')->middleware('isAdminOrSelf');
+    Route::put('users/{id}', 'UserController@update')->middleware('isAdminOrSelf');
+    Route::put('users/{id}/updatepassword', 'UserController@updatepassword')->middleware('isAdminOrSelf');
 });

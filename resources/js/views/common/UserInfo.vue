@@ -7,14 +7,17 @@
                 <div class="form-group row">
                     <label for="name" class="text-md-right col-md-4 col-form-label">{{ $t('Name') }}</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" v-model="representative.name" value="" required autocomplete="name" autofocus>
+                        <input type="text" class="form-control" v-model="userInfo.name" value="" autocomplete="name" autofocus>
+                        <div class="alert alert-danger mt-1" role="alert" v-if='has_error && errors.name'>
+                            {{ errors.name[0] }}
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label for="username" class="col-md-4 col-form-label text-md-right">{{ $t('Username') }}</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" v-model="representative.username" value="" required>
+                        <input type="text" class="form-control" v-model="userInfo.username" value="">
                         <div class="alert alert-danger mt-1" role="alert" v-if='has_error && errors.username'>
                             {{ errors.username[0] }}
                         </div>
@@ -23,20 +26,10 @@
                 <div class="form-group row">
                     <label for="email" class="col-md-4 col-form-label text-md-right">{{ $t('E-Mail Address') }}</label>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" v-model="representative.email" value="" required autocomplete="email">
+                        <input type="text" class="form-control" v-model="userInfo.email" value="" autocomplete="email">
                         <div class="alert alert-danger mt-1" role="alert" v-if='has_error && errors.email'>
                             {{ errors.email[0] }}
                         </div>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="password" class="col-md-4 col-form-label text-md-right">{{ $t('Password') }}</label>
-                    <div class="col-md-4">
-                        <input type="password" class="form-control" v-model="representative.password" required autocomplete="new-password" :placeholder="$t('Password')">
-                    </div>
-                    <div class="col-md-4">
-                        <input type="password" class="form-control" v-model="representative.password_confirmation" required autocomplete="new-password" :placeholder="$t('Confirm Password')">
                     </div>
                 </div>
 
@@ -52,8 +45,7 @@
                     <SubmitButton
                         icon="user"
                         :buttonText="buttonText"
-                        :saving="updateRepresentativeSaving"></SubmitButton>
-                    <router-link class="btn btn-secondary btn-create" :to="{name: 'representatives'}"><i class="fas fa-ban"></i> {{ $t('Cancel') }} </router-link>
+                        :saving="updateUserInfoSaving"></SubmitButton>
                 </div>
             </div>
         </form>
@@ -64,10 +56,10 @@
                 <div class="form-group row">
                     <label for="password" class="col-md-4 col-form-label text-md-right">{{ $t('Password') }}</label>
                     <div class="col-md-4">
-                        <input type="password" class="form-control" v-model="representative.password" required autocomplete="new-password" :placeholder="$t('Password')">
+                        <input type="password" class="form-control" v-model="userInfo.password" required autocomplete="new-password" :placeholder="$t('Password')">
                     </div>
                     <div class="col-md-4">
-                        <input type="password" class="form-control" v-model="representative.password_confirmation" required autocomplete="new-password" :placeholder="$t('Confirm Password')">
+                        <input type="password" class="form-control" v-model="userInfo.password_confirmation" required autocomplete="new-password" :placeholder="$t('Confirm Password')">
                     </div>
                 </div>
 
@@ -99,37 +91,30 @@ export default {
     data() {
          return {
             updatePasswordSaving: false,
-            updateRepresentativeSaving: false,
-            representative: {
-                role: 'representative',
+            updateUserInfoSaving: false,
+            userInfo: {
                 name: '',
                 username: '',
-                email: '',
-                password: '',
-                password_confirmation: ''
+                email: ''
             },
             has_error: false,
-            buttonText: '',
+            buttonText: 'Guardar',
             error: '',
             errors: {},
             errorsPassword: {}
         }
     },
     mounted () {
-        this.buttonText = this.$t('Save')
-        if (this.$route.params.representative_id) {
-            this.buttonText = this.$t('Update')
-            this.getRepresentative(this.$route.params.representative_id);
-        }
+        this.getUserInfo()
     },
     methods: {
       sendForm() {
-          this.updateRepresentativeSaving = true
-          const params = this.representative
+          this.updateUserInfoSaving = true
+          const params = this.userInfo
           this.errors = {}
-          axios.put('/representatives/' + this.$route.params.representative_id, params)
+          axios.put('/users/' + this.$auth.user().id, params)
           .then((response) => {
-              this.updateRepresentativeSaving = false
+              this.updateUserInfoSaving = false
               //reset all inputs
               this.$swal.fire({
                   title: 'Grandioso',
@@ -139,7 +124,7 @@ export default {
               })
           })
           .catch((error) => {
-              this.updateRepresentativeSaving = false
+              this.updateUserInfoSaving = false
               this.has_error = true
               this.errors = error.response.data.errors
           });
@@ -147,8 +132,8 @@ export default {
       updatePassword() {
           this.updatePasswordSaving = true
           this.errorsPassword = {}
-          const params = this.representative
-          axios.put('/representatives/' + this.$route.params.representative_id + '/updatepassword', params)
+          const params = this.userInfo
+          axios.put('/users/' + this.$auth.user().id + '/updatepassword', params)
           .then((response) => {
               //reset all inputs
               this.updatePasswordSaving = false
@@ -165,9 +150,9 @@ export default {
               this.errorsPassword = error.response.data.errors
           });
       },
-      getRepresentative(id) {
-          axios.get('/representatives/' + id).then((response) =>{
-              this.representative = response.data;
+      getUserInfo() {
+          axios.get('/users/' + this.$auth.user().id).then((response) =>{
+              this.userInfo = response.data.user
           });
       }
     }
